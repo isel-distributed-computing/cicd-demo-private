@@ -39,6 +39,15 @@
 		</dependency>
 	</dependencies>
 
+	<distributionManagement>
+		<repository>
+			<id>github</id>
+			<name>GitHub Packages</name>
+			<url>https://maven.pkg.github.com/jsimaoisel/isel-distributed-computing/cicd-demo</url>
+		</repository>
+	</distributionManagement>
+
+
 	<build>
 		<plugins>
 			<plugin>
