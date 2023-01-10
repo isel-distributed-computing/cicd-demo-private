@@ -15,6 +15,8 @@
   * Delete a ToDo item based on its ``id``
   
     * ``curl -XDELETE 'localhost:8080/todolist/1'``
+
+  * For each of these operation a notification is sent using a notification service. Currently, this service only prints a log message on _standard output_
   
 * Code has 3 unit tests for the ``ToDoListController`` using a mockup for the ToDoListService
 
