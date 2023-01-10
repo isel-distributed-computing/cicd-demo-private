@@ -22,7 +22,7 @@
   
 * Code has 3 unit tests for the ``ToDoListController`` using a mockup for the ToDoListService (remaining tests are missing)
 
-* When code is pushed to the repository, or when the user explicity requests, a Github Action (``.github/workflows/docker-image.yml``) is executed running the following steps:
+* When code is pushed to the repository, or when the programmer explicity requests, a Github Action (``.github/workflows/docker-image.yml``) is executed running the following steps:
 
   * builds the code
  
