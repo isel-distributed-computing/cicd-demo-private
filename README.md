@@ -4,7 +4,7 @@
 
 * Monolithic ToDoList REST API with the following functionalities:
 
-  * Create a ToDo item based on the ``nameuser`` and a ``description``
+  * Create a ToDo item based on the ``username`` and a ``description``
   
     * ``curl -XPOST -d '{"username": "jose", "description": "abc"}' 'localhost:8080/todolist'``
   
