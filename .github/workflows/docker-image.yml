@@ -25,4 +25,9 @@ jobs:
     - name: Build the Docker image
       run: |
         cd phase-1
-        docker build . --file Dockerfile --tag todolist:$(date +%s)
+        docker build . --file Dockerfile --tag todolist:phase-1
+        
+    - name: Push image to Harbor demo repo
+      run: |
+        docker tag todolist:phase-1 demo.goharbor.io/todolist-phase1/todolist:phase-1
+        docker push demo.goharbor.io/todolist-phase1/todolist:phase-1
