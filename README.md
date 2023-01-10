@@ -6,7 +6,7 @@
 
   * Create a ToDo item based on the ``username`` and a ``description``
   
-    * ``curl -XPOST -d '{"username": "jose", "description": "abc"}' 'localhost:8080/todolist'``
+    * ``curl -XPOST -d '{"username": "myname", "description": "abc"}' 'localhost:8080/todolist'``
   
   * Get a list of all ToDo item from a ``username``
   
@@ -20,7 +20,7 @@
   
 * Code has 3 unit tests for the ``ToDoListController`` using a mockup for the ToDoListService
 
-* When code is pushed to the repository, or when the user explicity requests, a Github Action (``.github/workflows/docker-image.yml``) is executed running the following code:
+* When code is pushed to the repository, or when the user explicity requests, a Github Action (``.github/workflows/docker-image.yml``) is executed running the following steps:
 
   * builds the code
  
