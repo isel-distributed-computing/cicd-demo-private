@@ -2,9 +2,9 @@
 
 ## Phase 1
 
-* Monolithic ToDoList REST API with 3 services: ToDo List service, User service and Notification service
+* Monolithic ToDoList REST API with 3 services: ToDo List service, User service (**_empty_**) and Notification service
 
-* Currently he following functionalities are available:
+* Currently the following functionalities are available:
 
   * Create a ToDo item based on the ``username`` and a ``description``
   
