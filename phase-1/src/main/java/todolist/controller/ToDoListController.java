@@ -41,7 +41,7 @@ public class ToDoListController {
     }
 
     @GetMapping("/{username}")
-    public List<ToDoListItem> getAllItensByUser(@PathVariable("username") String username) {
+    public List<ToDoListItem> getAllItemsByUser(@PathVariable("username") String username) {
         logger.info("Get all items from user");
         Optional<List<ToDoListItem>> list = toDoListService.getToDoListItemList(username);
         if (!list.isEmpty())
