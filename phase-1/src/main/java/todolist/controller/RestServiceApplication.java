@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = "com.example.*")
+@ComponentScan(basePackages = "todolist.*")
 public class RestServiceApplication {
 
     public static void main(String[] args) {

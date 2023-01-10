@@ -8,12 +8,10 @@ public class ToDoListItem {
     private String description;
     private String username;
 
-    private static AtomicInteger atomicInt = new AtomicInteger();
-
     public ToDoListItem() {}
 
-    public ToDoListItem(String username, String description) {
-        id = atomicInt.addAndGet(1);
+    public ToDoListItem(int id, String username, String description) {
+        this.id = id;
         this.username = username;
         this.description = description;
     }

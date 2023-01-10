@@ -33,9 +33,9 @@ public class ToDoListController {
     @DeleteMapping("/{itemId}")
     public ToDoListItem deleteToDoListItem(@PathVariable("itemId") int itemId) {
         logger.info("Delete todo list item");
-        if (!toDoListService.getToDoListItem(itemId).isEmpty()) {
-            ToDoListItem item = toDoListService.deleteToDoListItem(itemId).get();
-            return item;
+        Optional<ToDoListItem> item = toDoListService.deleteToDoListItem(itemId);
+        if (!item.isEmpty()) {
+            return item.get();
         }
         throw new ResourceNotFoundException();
     }

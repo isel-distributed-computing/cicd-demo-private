@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class ToDoListService {
@@ -14,6 +15,9 @@ public class ToDoListService {
     private final NotificationService notificationService;
     private HashMap<String, List<ToDoListItem>> allItems = new HashMap<>();
 
+    private AtomicInteger atomicInt = new AtomicInteger(0);
+
+
     public ToDoListService(UserService userService, NotificationService notificationService) {
         this.userService = userService;
         this.notificationService = notificationService;
@@ -21,7 +25,7 @@ public class ToDoListService {
 
     public ToDoListItem createToDoListItem(String username, String description) {
         // Validate the input and create a new to-do list item
-        ToDoListItem item = new ToDoListItem(username, description);
+        ToDoListItem item = new ToDoListItem(atomicInt.addAndGet(1), username, description);
         // Save the item to the database
         saveToDoListItem(item);
         // Send a notification
