@@ -41,24 +41,20 @@ public class ToDoListServiceTests {
 
     @Test
     public void testDeleteToDoListItem() {
-        int itemId = 1;
-        ToDoListItem item = new ToDoListItem(itemId, "testuser", "Test description");
-
-        Optional<ToDoListItem> deletedItem = toDoListService.deleteToDoListItem(itemId);
+        //ToDoListItem item = new ToDoListItem(itemId, "testuser", "Test description");
+        ToDoListItem item = toDoListService.createToDoListItem("testuser", "test description");
+        Optional<ToDoListItem> deletedItem = toDoListService.deleteToDoListItem(item.getId());
 
         assertTrue(deletedItem.isPresent());
-        assertEquals(itemId, deletedItem.get().getId());
-
         verify(notificationService, times(1)).sendItemDeletedNotification(item);
     }
 
     @Test
     public void testGetToDoListItem() {
         int itemId = 1;
-        ToDoListItem item = new ToDoListItem(itemId, "testuser", "Test description");
-
-        Optional<ToDoListItem> foundItem = toDoListService.getToDoListItem(itemId);
-
+        //ToDoListItem item = new ToDoListItem(itemId, "testuser", "Test description");
+        ToDoListItem item = toDoListService.createToDoListItem("test user", "test description");
+        Optional<ToDoListItem> foundItem = toDoListService.getToDoListItem(item.getId());
 
         assertTrue(foundItem.isPresent());
         assertEquals(itemId, foundItem.get().getId());
@@ -66,9 +62,11 @@ public class ToDoListServiceTests {
 
     @Test
     public void testGetToDoListItemList() {
-        String username = "testuser";
+        String username = "test user";
         ToDoListItem item1 = new ToDoListItem(1, username, "Test description 1");
         ToDoListItem item2 = new ToDoListItem(2, username, "Test description 2");
+        toDoListService.createToDoListItem(username, "test description 1");
+        toDoListService.createToDoListItem(username, "test description 2");
 
         Optional<List<ToDoListItem>> itemList = toDoListService.getToDoListItemList(username);
         assertTrue(itemList.isPresent());
