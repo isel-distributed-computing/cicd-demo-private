@@ -19,6 +19,10 @@ jobs:
         echo "Running with JDK ${{ matrix.java }}"
         # other setup steps
     - name: Build with Maven
-      run: mvn -B -DskipTests=true clean package
+      run: |
+        cd phase-1
+        mvn -B -DskipTests=true clean package
     - name: Test with Maven
-      run: mvn -B test
+      run: |
+        cd phase-1
+        mvn -B test
