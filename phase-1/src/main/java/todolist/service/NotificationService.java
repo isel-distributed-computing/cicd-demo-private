@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 public class NotificationService {
     private static final Logger logger = LoggerFactory.getLogger(NotificationService.class);
     public void sendItemCreatedNotification(ToDoListItem item) {
-        logger.info("Send create notification");
+        logger.info("Item created: " + item);
     }
 
     public void sendItemDeletedNotification(ToDoListItem item) {
-        logger.info("Send delete notification");
+        logger.info("Item deleted: " + item);
     }
 }
