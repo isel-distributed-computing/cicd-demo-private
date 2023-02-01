@@ -17,7 +17,7 @@ import static org.mockito.Mockito.*;
 public class ToDoListServiceTests {
 
     @Mock
-    private UserService userService;
+    private ToDoUserService userService;
 
     @Mock
     private NotificationService notificationService;

@@ -1,5 +1,7 @@
 package todolist.service;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +11,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 @Service
-public class UserService {
+public class ToDoUserService {
     HashMap<String, String> pwds;
 
     public boolean register(String username, String pwd) {
@@ -31,4 +33,13 @@ public class UserService {
         return token;
     }
 
+    public boolean validateToken(String token) {
+        try {
+            Jws<Claims> claims = Jwts.parser().setSigningKey("secret").parseClaimsJws(token);
+            String sub = claims.getBody().getSubject();
+            return pwds.containsKey(sub);
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

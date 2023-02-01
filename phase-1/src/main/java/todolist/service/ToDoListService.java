@@ -11,14 +11,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Service
 public class ToDoListService {
     private static final Logger logger = LoggerFactory.getLogger(ToDoListService.class);
-    private final UserService userService;
+    private final ToDoUserService userService;
     private final NotificationService notificationService;
     private HashMap<String, List<ToDoListItem>> allItems = new HashMap<>();
 
     private AtomicInteger atomicInt = new AtomicInteger(0);
 
 
-    public ToDoListService(UserService userService, NotificationService notificationService) {
+    public ToDoListService(ToDoUserService userService, NotificationService notificationService) {
         this.userService = userService;
         this.notificationService = notificationService;
     }
