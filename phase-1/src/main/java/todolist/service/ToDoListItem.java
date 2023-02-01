@@ -32,6 +32,8 @@ public class ToDoListItem {
         ToDoListItem item = (ToDoListItem) o;
         return id == item.id;
     }
-
+    public String toString() {
+        return "user: " + username + " / ToDo: " + description;
+    }
 
 }
