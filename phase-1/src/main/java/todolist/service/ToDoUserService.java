@@ -1,43 +1,41 @@
 package todolist.service;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.SignatureAlgorithm;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.stereotype.Service;
 
-import io.jsonwebtoken.Jwts;
-
-import java.util.Date;
 import java.util.HashMap;
 
 @Service
 public class ToDoUserService {
-    HashMap<String, String> pwds;
+    HashMap<String, String> passwords = new HashMap<>();
 
     public boolean register(String username, String pwd) {
-        if (pwds.containsKey(username))
+        if (passwords.containsKey(username))
             return false;
-        pwds.put(username, pwd);
+        passwords.put(username, pwd);
         return true;
     }
 
     public String login(String username, String pwd) throws PasswordMismatchException {
-        if (!pwds.get(username).equals(pwd)) {
+        if (!passwords.get(username).equals(pwd)) {
             throw new PasswordMismatchException();
         }
-        String token = Jwts.builder()
-            .setSubject(username)
-            .setIssuedAt(new Date())
-            .signWith(SignatureAlgorithm.HS256, "secret")
-            .compact();
-        return token;
+        Algorithm algorithm = Algorithm.HMAC256("secret");
+        return JWT.create()
+                .withClaim("username", username)
+                .sign(algorithm);
     }
 
     public boolean validateToken(String token) {
         try {
-            Jws<Claims> claims = Jwts.parser().setSigningKey("secret").parseClaimsJws(token);
-            String sub = claims.getBody().getSubject();
-            return pwds.containsKey(sub);
+            Algorithm algorithm = Algorithm.HMAC256("secret");
+            DecodedJWT jwt = JWT.require(algorithm)
+                    .build()
+                    .verify(token);
+            String sub = jwt.getClaim("username").asString();
+            return passwords.containsKey(sub);
         } catch (Exception e) {
             return false;
         }
