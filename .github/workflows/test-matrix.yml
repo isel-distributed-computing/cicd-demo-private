@@ -5,19 +5,24 @@ on:
 
 jobs:
   test:
+    runs-on: ubuntu-latest
+    
     strategy:
       matrix:
-        java: [11, 17]
-    name: Test with JDK ${{ matrix.java }}
-    runs-on: ubuntu-latest
+        jdk: [17]
+        os: [ubuntu-18.04, ubuntu-20.04]
+
+    name: Test on JDK ${{ matrix.jdk }} and Ubuntu ${{ matrix.os }}
 
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Set up JDK ${{ matrix.java }}
-      run: |
-        echo "Running with JDK ${{ matrix.java }}"
-        # other setup steps
+      
+    - name: Set up JDK ${{ matrix.jdk }}
+      uses: actions/setup-java@v2
+      with:
+        java-version: ${{ matrix.jdk }}
+              
     - name: Build with Maven
       run: |
         cd phase-1
