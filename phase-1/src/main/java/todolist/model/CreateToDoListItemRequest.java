@@ -1,4 +1,4 @@
-package todolist.controller;
+package todolist.model;
 
 // CreateToDoListItemRequest.java
 public class CreateToDoListItemRequest {

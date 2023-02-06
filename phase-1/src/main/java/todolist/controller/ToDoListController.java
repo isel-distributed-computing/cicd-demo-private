@@ -3,6 +3,7 @@ package todolist.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
+import todolist.model.CreateToDoListItemRequest;
 import todolist.service.ToDoListItem;
 import todolist.service.ToDoListService;
 import org.slf4j.Logger;
@@ -48,8 +49,6 @@ public class ToDoListController {
         throw new ResourceNotFoundException();
     }
 
-
-
     @GetMapping("/{username}")
     public List<ToDoListItem> getAllItemsByUser(@PathVariable("username") String username,
                                                 @RequestHeader("Authorization") String authorization) {
@@ -62,9 +61,9 @@ public class ToDoListController {
     }
 
     private void validateToken(String authorization) {
-        if (!authorization.startsWith("Bearer"))
+        if (!authorization.startsWith("Bearer: "))
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid JWT token");
-        String token = authorization.substring("Bearer ".length());
+        String token = authorization.substring("Bearer: ".length());
         if (!userService.validateToken(token)) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid JWT token");
         }

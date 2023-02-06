@@ -1,7 +1,5 @@
 package todolist.service;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 public class ToDoListItem {
 
     private int id;

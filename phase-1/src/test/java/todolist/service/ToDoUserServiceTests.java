@@ -15,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 public class ToDoUserServiceTests {
     public static final String NAME = "name";
     public static final String PWD = "pwd";
+    private final String SECRET = "secret";
     @InjectMocks
     private ToDoUserService userService;
 
@@ -35,7 +36,7 @@ public class ToDoUserServiceTests {
     public void testLoginUser() throws PasswordMismatchException {
         userService.register(NAME, PWD);
         String token = userService.login(NAME, PWD);
-        Algorithm algorithm = Algorithm.HMAC256("secret");
+        Algorithm algorithm = Algorithm.HMAC256(SECRET);
         DecodedJWT jwt = JWT.require(algorithm)
                 .build()
                 .verify(token);
@@ -46,7 +47,7 @@ public class ToDoUserServiceTests {
     @Test
     public void testValidateToken() {
         userService.register(NAME, PWD);
-        Algorithm algorithm = Algorithm.HMAC256("secret");
+        Algorithm algorithm = Algorithm.HMAC256(SECRET);
         String token = JWT.create()
                 .withClaim("username", NAME)
                 .sign(algorithm);
