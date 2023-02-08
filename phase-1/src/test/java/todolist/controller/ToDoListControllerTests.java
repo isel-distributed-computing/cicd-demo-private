@@ -7,8 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 //import org.junit.Before;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import todolist.service.PasswordMismatchException;
-import todolist.service.ToDoListItem;
+import todolist.model.ToDoListItem;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
@@ -52,8 +51,7 @@ public class ToDoListControllerTests {
     @Test
     public void testCreateToDoListItem() throws Exception {
         //Arrange
-        when
-                (service.createToDoListItem(username, description))
+        when(service.createToDoListItem(username, description))
                 .thenReturn(new ToDoListItem(1, username, description));
 
         String requestBody = "{\n" +

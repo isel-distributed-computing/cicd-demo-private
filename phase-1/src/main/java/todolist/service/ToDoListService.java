@@ -1,9 +1,16 @@
 package todolist.service;
 
 // ToDoListService.java
+import org.apache.catalina.Store;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import todolist.model.ToDo;
+import todolist.model.ToDoListItem;
+import todolist.model.User;
+import todolist.repository.ToDoRepository;
+import todolist.repository.UserRepository;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -16,11 +23,21 @@ public class ToDoListService {
     private HashMap<String, List<ToDoListItem>> allItems = new HashMap<>();
 
     private AtomicInteger atomicInt = new AtomicInteger(0);
+    @Autowired
+    private ToDoRepository toDoListRepository;
+    @Autowired
+    private UserRepository userRepository;
 
 
-    public ToDoListService(ToDoUserService userService, NotificationService notificationService) {
+    public ToDoListService(
+            ToDoUserService userService,
+            NotificationService notificationService,
+            ToDoRepository toDoListRepository,
+            UserRepository userRepository) {
         this.userService = userService;
         this.notificationService = notificationService;
+        this.toDoListRepository = toDoListRepository;
+        this.userRepository = userRepository;
     }
 
     public ToDoListItem createToDoListItem(String username, String description) {
@@ -35,6 +52,7 @@ public class ToDoListService {
 
     private void saveToDoListItem(ToDoListItem item) {
         logger.info("Save ToDo item");
+        // In-memory DB
         List<ToDoListItem> list = allItems.get(item.getUsername());
         if (list==null) {
             list = new ArrayList<>();
@@ -43,6 +61,11 @@ public class ToDoListService {
         } else {
             list.add(item);
         }
+        // real DB
+        Optional<User> user = userRepository.findByUsername(item.getUsername());
+        if (user.isEmpty()) throw new RuntimeException("User not found"); // TODO: revise exception type
+        ToDo toDo = new ToDo(user.get(), item.getDescription());
+        toDoListRepository.save(toDo);
     }
 
     public Optional<ToDoListItem> deleteToDoListItem(int itemId) {

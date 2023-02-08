@@ -3,7 +3,10 @@ package todolist.service;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import todolist.model.User;
+import todolist.repository.UserRepository;
 
 import java.util.HashMap;
 
@@ -11,10 +14,16 @@ import java.util.HashMap;
 public class ToDoUserService {
     HashMap<String, String> passwords = new HashMap<>();
 
+    @Autowired
+    private UserRepository userRepository;
+
     public boolean register(String username, String pwd) {
+        // mock DB
         if (passwords.containsKey(username))
             return false;
         passwords.put(username, pwd);
+        // real DB
+        userRepository.save(new User(username, pwd, "dummy salt"));
         return true;
     }
 

@@ -1,4 +1,4 @@
-package todolist.service;
+package todolist.model;
 
 public class ToDoListItem {
 
