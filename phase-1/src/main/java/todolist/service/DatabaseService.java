@@ -29,4 +29,9 @@ public class DatabaseService {
     public List<ToDo> findToDosByUser(User user) {
         return toDoRepository.findByUser(user);
     }
+
+    public void deleteAll() {
+        toDoRepository.deleteAll();
+        userRepository.deleteAll();
+    }
 }

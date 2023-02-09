@@ -3,6 +3,7 @@ package todolist.service;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import todolist.model.User;
@@ -16,6 +17,12 @@ public class ToDoUserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    Dotenv dotenv;
+
+    public ToDoUserService() {
+        dotenv = Dotenv.configure().load();
+    }
 
     public boolean register(String username, String pwd) {
         // mock DB
@@ -31,7 +38,7 @@ public class ToDoUserService {
         if (!passwords.get(username).equals(pwd)) {
             throw new PasswordMismatchException();
         }
-        Algorithm algorithm = Algorithm.HMAC256("secret");
+        Algorithm algorithm = Algorithm.HMAC256(dotenv.get("JWT_SECRET"));
         return JWT.create()
                 .withClaim("username", username)
                 .sign(algorithm);
@@ -39,7 +46,7 @@ public class ToDoUserService {
 
     public boolean validateToken(String token) {
         try {
-            Algorithm algorithm = Algorithm.HMAC256("secret");
+            Algorithm algorithm = Algorithm.HMAC256(dotenv.get("JWT_SECRET"));
             DecodedJWT jwt = JWT.require(algorithm)
                     .build()
                     .verify(token);

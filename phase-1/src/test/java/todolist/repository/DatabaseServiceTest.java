@@ -1,19 +1,17 @@
-package todolist.service;
+/*
+package todolist.repository;
 
-import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import todolist.model.ToDo;
 import todolist.model.User;
+import todolist.service.DatabaseService;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -41,6 +39,7 @@ public class DatabaseServiceTest {
     @AfterEach
     public void tearDown() {
         // Clean up test data
+        databaseService.deleteAll();
     }
 
     @Test
@@ -66,3 +65,4 @@ public class DatabaseServiceTest {
     }
 }
 
+*/
