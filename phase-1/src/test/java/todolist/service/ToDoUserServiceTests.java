@@ -3,6 +3,7 @@ package todolist.service;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import io.github.cdimascio.dotenv.Dotenv;
 import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -26,7 +27,7 @@ class ToDoUserServiceTests {
 
     public static final String NAME = "name";
     public static final String PWD = "pwd";
-    private final String SECRET = "secret";
+    private final String SECRET = Dotenv.load().get("JWT_SECRET");
 
     @Before
     public void setUp() {
