@@ -3,42 +3,56 @@ package todolist.service;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import todolist.model.User;
 import todolist.repository.UserRepository;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class ToDoUserService {
-    HashMap<String, String> passwords = new HashMap<>();
+    private String secret;
 
-    @Autowired
     private UserRepository userRepository;
 
-    Dotenv dotenv;
-
-    public ToDoUserService() {
-        dotenv = Dotenv.configure().load();
+    @Autowired
+    public ToDoUserService(@Value("${JWT_SECRET}") String secret, @Autowired UserRepository userRepository) {
+        this.secret = secret;
+        this.userRepository = userRepository;
     }
 
-    public boolean register(String username, String pwd) {
-        // mock DB
-        if (passwords.containsKey(username))
-            return false;
-        passwords.put(username, pwd);
+    public boolean register(String username, String pwd) throws NoSuchAlgorithmException {
         // real DB
-        userRepository.save(new User(username, pwd, "dummy salt"));
+        if (userRepository.findByUsername(username).isPresent())
+            return false;
+        // -- securely save password
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String pwdSalted = encoder.encode(pwd);
+        // -- save to DB
+        userRepository.save(new User(username, pwdSalted));
         return true;
     }
 
-    public String login(String username, String pwd) throws PasswordMismatchException {
-        if (!passwords.get(username).equals(pwd)) {
+    public String login(String username, String pwd) throws PasswordMismatchException, UnknownUserException, NoSuchAlgorithmException {
+        // check pwd
+        Optional<User> user = userRepository.findByUsername(username);
+        if (!user.isPresent())
+            throw new UnknownUserException();
+        // check pwd
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        if (!encoder.matches(pwd, user.get().getSaltedPwd()))
             throw new PasswordMismatchException();
-        }
-        Algorithm algorithm = Algorithm.HMAC256(dotenv.get("JWT_SECRET"));
+        // create JWT
+        Algorithm algorithm = Algorithm.HMAC256(secret);
         return JWT.create()
                 .withClaim("username", username)
                 .sign(algorithm);
@@ -46,12 +60,12 @@ public class ToDoUserService {
 
     public boolean validateToken(String token) {
         try {
-            Algorithm algorithm = Algorithm.HMAC256(dotenv.get("JWT_SECRET"));
+            Algorithm algorithm = Algorithm.HMAC256(secret);
             DecodedJWT jwt = JWT.require(algorithm)
                     .build()
                     .verify(token);
             String sub = jwt.getClaim("username").asString();
-            return passwords.containsKey(sub);
+            return true;
         } catch (Exception e) {
             return false;
         }

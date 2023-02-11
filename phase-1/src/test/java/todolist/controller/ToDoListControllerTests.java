@@ -24,6 +24,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import todolist.service.ToDoListService;
 import todolist.service.ToDoUserService;
+import todolist.service.UnknownUserException;
 
 import java.util.*;
 
@@ -49,7 +50,7 @@ public class ToDoListControllerTests {
     }
 
     @Test
-    public void testCreateToDoListItem() throws Exception {
+    public void testCreateToDoListItem() throws Exception, UnknownUserException {
         //Arrange
         when(service.createToDoListItem(username, description))
                 .thenReturn(new ToDoListItem(1, username, description));
@@ -62,7 +63,7 @@ public class ToDoListControllerTests {
         userService.register(username, password);
         String token = userService.login(username, password);
 
-        //Act & Test
+        //Act & Assert
         ResultActions result =
             mockMvc.perform(post("/todolist")
                             .contentType(MediaType.APPLICATION_JSON)
@@ -81,7 +82,7 @@ public class ToDoListControllerTests {
     }
 
     @Test
-    public void testDeleteToDoItem() throws Exception {
+    public void testDeleteToDoItem() throws Exception, UnknownUserException {
         //Arrange
         final int id = new Random().nextInt();
 
@@ -91,7 +92,7 @@ public class ToDoListControllerTests {
         userService.register(username, password);
         String token = userService.login(username, password);
 
-        // Act & Test
+        // Act & Assert
         mockMvc.perform(delete("/todolist/"+id)
                         .header("Authorization", "Bearer: " + token))
                 .andExpect(status().isOk())
@@ -101,7 +102,7 @@ public class ToDoListControllerTests {
     }
 
     @Test
-    public void testGetAllItemsByUser() throws Exception {
+    public void testGetAllItemsByUser() throws Exception, UnknownUserException {
         // Arrange
         when(service.getToDoListItemList(username))
                 .thenReturn(Optional.of(Arrays.asList(
@@ -111,7 +112,7 @@ public class ToDoListControllerTests {
         userService.register(username, password);
         String token = userService.login(username, password);
 
-        // Act & Test
+        // Act & Assert
         ResultActions result =
             mockMvc.perform(get("/todolist/"+username)
                             .header("Authorization", "Bearer: " + token))

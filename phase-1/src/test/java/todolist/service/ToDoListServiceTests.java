@@ -6,6 +6,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
 import todolist.model.ToDoListItem;
 import todolist.model.User;
 import todolist.repository.ToDoRepository;
@@ -19,10 +20,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@SpringBootTest
 class ToDoListServiceTests {
 
     private final String username = "testuser";
-    private final String password = "secure password";
+    private final String password = "abc";
     private final String description = "Test description";
     @Mock
     private ToDoRepository toDoListRepository;
@@ -40,7 +42,7 @@ class ToDoListServiceTests {
 
     @Before
     public void setUp() {
-        User user = new User(username, password, "dummy salt");
+        User user = new User(username, password);
         when(userRepository.save(user))
                 .thenReturn(user);
         when(userRepository.getReferenceById(user.getId()))
@@ -52,7 +54,7 @@ class ToDoListServiceTests {
     @Test
     public void testCreateToDoListItem() {
         // Arrange
-        User user = new User(username, password, "dummy salt");
+        User user = new User(username, password);
         when(userRepository.findByUsername(user.getUsername()))
                 .thenReturn(Optional.of(user));
 
@@ -70,7 +72,7 @@ class ToDoListServiceTests {
     @Test
     public void testDeleteToDoListItem() {
         // Arrange
-        User user = new User(username, password, "dummy salt");
+        User user = new User(username, password);
         when(userRepository.findByUsername(user.getUsername()))
                 .thenReturn(Optional.of(user));
         ToDoListItem item = toDoListService.createToDoListItem("testuser", "testpassword");
@@ -88,7 +90,7 @@ class ToDoListServiceTests {
         // Arrange
         int itemId = 1;
         //ToDoListItem item = new ToDoListItem(itemId, "testuser", "Test description");
-        User user = new User(username, password, "dummy salt");
+        User user = new User(username, password);
         when(userRepository.findByUsername(user.getUsername()))
                 .thenReturn(Optional.of(user));
         ToDoListItem item = toDoListService.createToDoListItem(username, description);
@@ -104,7 +106,7 @@ class ToDoListServiceTests {
     @Test
     public void testGetToDoListItemList() {
         // Arrange
-        User user = new User(username, password, "dummy salt");
+        User user = new User(username, password);
         when(userRepository.findByUsername(user.getUsername()))
                 .thenReturn(Optional.of(user));
         ToDoListItem item1 = new ToDoListItem(1, username, "Test description 1");

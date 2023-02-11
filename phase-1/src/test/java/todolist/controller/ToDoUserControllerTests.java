@@ -22,30 +22,26 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import todolist.model.LoginRequest;
 import todolist.service.PasswordMismatchException;
 import todolist.service.ToDoUserService;
+import todolist.service.UnknownUserException;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(ToDoUserController.class)
 public class ToDoUserControllerTests {
 
+    private final String username = "testuser";
+    private final String password = "testpwd";
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
     private ToDoUserService toDoUserService;
 
-    @Before
-    public void setUp() {
-        // setup mocks
-    }
-
     @Test
     public void registerShouldReturnOkWhenServiceReturnsTrue() throws Exception {
-        // arrange
-        String username = "testuser";
-        String password = "testpwd";
+        // Arrange
         when(toDoUserService.register(username, password)).thenReturn(true);
 
-        // act and assert
+        // Act and Assert
         mockMvc.perform(post("/user/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(new LoginRequest(username, password))))
@@ -54,12 +50,10 @@ public class ToDoUserControllerTests {
 
     @Test
     public void registerShouldReturnBadRequestWhenServiceReturnsFalse() throws Exception {
-        // arrange
-        String username = "testuser";
-        String password = "testpwd";
+        // Arrange
         when(toDoUserService.register(username, password)).thenReturn(false);
 
-        // act and assert
+        // Act and Assert
         mockMvc.perform(post("/user/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(new LoginRequest(username, password))))
@@ -67,13 +61,12 @@ public class ToDoUserControllerTests {
     }
 
     @Test
-    public void testLogin() throws PasswordMismatchException, Exception {
-        String username = "user";
-        String password = "pwd";
+    public void testLogin() throws Exception {
+        // Arrange
         String token = "token";
-
         when(toDoUserService.login(username, password)).thenReturn(token);
 
+        // Act and Assert
         mockMvc.perform(post("/user/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"username\": \"" + username + "\", \"password\": \"" + password + "\"}"))

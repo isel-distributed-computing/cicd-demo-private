@@ -17,15 +17,14 @@ public class UserRepositoryTest {
     private UserRepository userRepository;
     @Test
     void testFindByUsername() {
-        User user = new User("test_user", "test_password", "test_salt");
+        User user = new User("test_user", "abc");
         userRepository.save(user);
 
         Optional<User> userResult = userRepository.findByUsername("test_user");
         assertThat(userResult.isPresent());
         user = userResult.get();
         assertThat(user.getUsername().equals("test_user"));
-        assertThat(user.getPassword().equals("test_password"));
-        assertThat(user.getSalt().equals("test_salt"));
+        assertThat(user.getSaltedPwd().equals("test_password"));
     }
 }
 

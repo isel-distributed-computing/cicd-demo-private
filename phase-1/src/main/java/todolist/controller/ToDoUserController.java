@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.*;
 import todolist.model.LoginRequest;
 import todolist.service.PasswordMismatchException;
 import todolist.service.ToDoUserService;
+import todolist.service.UnknownUserException;
+
+import java.security.NoSuchAlgorithmException;
 
 @RestController
 @RequestMapping("/user")
@@ -16,12 +19,15 @@ public class ToDoUserController {
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody LoginRequest request) {
-        boolean result = toDoUserService.register(request.getUsername(), request.getPassword());
-        if (result) {
-            return ResponseEntity.ok("User registered successfully");
-        } else {
+        boolean result = false;
+        try {
+            result = toDoUserService.register(request.getUsername(), request.getPassword());
+        } catch (NoSuchAlgorithmException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User registration failed");
         }
+        return result ?
+                ResponseEntity.ok("User registered successfully") :
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User registration failed");
     }
 
     @PostMapping("/login")
@@ -29,7 +35,7 @@ public class ToDoUserController {
         try {
             String jwt = toDoUserService.login(request.getUsername(), request.getPassword());
             return ResponseEntity.ok().body(jwt);
-        } catch (PasswordMismatchException e) {
+        } catch (PasswordMismatchException | UnknownUserException | NoSuchAlgorithmException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }

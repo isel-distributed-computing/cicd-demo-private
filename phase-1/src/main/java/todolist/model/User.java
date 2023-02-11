@@ -15,17 +15,14 @@ public class User {
 
     private String username;
 
-    private String password;
-
-    private String salt;
+    private String saltedPwd;
 
     public User() {
     }
 
-    public User(String username, String password, String salt) {
+    public User(String username, String password) {
         this.username = username;
-        this.password = password;
-        this.salt = salt;
+        this.saltedPwd = password;
     }
 
     public Long getId() {
@@ -36,12 +33,9 @@ public class User {
         return username;
     }
 
-    public String getPassword() {
-        return password;
+    public String getSaltedPwd() {
+        return saltedPwd;
     }
 
-    public String getSalt() {
-        return salt;
-    }
 }
 
