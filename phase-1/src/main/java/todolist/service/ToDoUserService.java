@@ -10,22 +10,16 @@ import org.springframework.stereotype.Service;
 import todolist.model.User;
 import todolist.repository.UserRepository;
 
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Optional;
-import java.util.Random;
 
 @Service
 public class ToDoUserService {
-    private String secret;
-
     private UserRepository userRepository;
 
-    @Autowired
-    public ToDoUserService(@Value("${JWT_SECRET}") String secret, @Autowired UserRepository userRepository) {
+    private String secret;
+
+    public ToDoUserService(@Value("${JWT_SECRET}") String secret, UserRepository userRepository) {
         this.secret = secret;
         this.userRepository = userRepository;
     }
@@ -45,7 +39,7 @@ public class ToDoUserService {
     public String login(String username, String pwd) throws PasswordMismatchException, UnknownUserException, NoSuchAlgorithmException {
         // check pwd
         Optional<User> user = userRepository.findByUsername(username);
-        if (!user.isPresent())
+        if (user.isEmpty())
             throw new UnknownUserException();
         // check pwd
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -61,10 +55,9 @@ public class ToDoUserService {
     public boolean validateToken(String token) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
-            DecodedJWT jwt = JWT.require(algorithm)
+            JWT.require(algorithm)
                     .build()
                     .verify(token);
-            String sub = jwt.getClaim("username").asString();
             return true;
         } catch (Exception e) {
             return false;

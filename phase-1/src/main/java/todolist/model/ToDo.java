@@ -21,6 +21,12 @@ public class ToDo {
 
     private String description;
 
+    public ToDo(long l, User user, String description) {
+        id = l;
+        this.user = user;
+        this.description = description;
+    }
+
     // getters and setters
 
     public Long getId() {

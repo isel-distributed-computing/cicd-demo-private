@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import todolist.service.ToDoUserService;
+import todolist.service.UnknownUserException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ public class ToDoListController {
 
     @PostMapping()
     public ToDoListItem createToDoListItem(@RequestBody CreateToDoListItemRequest request,
-                                           @RequestHeader("Authorization") String authorization) {
+                                           @RequestHeader("Authorization") String authorization) throws UnknownUserException {
         logger.info("Create todo list item");
         validateToken(authorization);
         ToDoListItem item = toDoListService.createToDoListItem(request.getUsername(), request.getDescription());
