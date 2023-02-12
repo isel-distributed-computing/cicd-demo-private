@@ -1,7 +1,6 @@
 package todolist.service;
 
 // ToDoListService.java
-import org.apache.catalina.Store;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,36 +12,31 @@ import todolist.repository.ToDoRepository;
 import todolist.repository.UserRepository;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class ToDoListService {
     private static final Logger logger = LoggerFactory.getLogger(ToDoListService.class);
-    private final ToDoUserService userService;
-    private final NotificationService notificationService;
-    private HashMap<String, List<ToDoListItem>> allItems = new HashMap<>();
 
-    private AtomicInteger atomicInt = new AtomicInteger(0);
+    @Autowired
+    private NotificationService notificationService;
     @Autowired
     private ToDoRepository toDoListRepository;
     @Autowired
     private UserRepository userRepository;
 
-
-    public ToDoListService(
-            ToDoUserService userService,
-            NotificationService notificationService,
-            ToDoRepository toDoListRepository,
-            UserRepository userRepository) {
-        this.userService = userService;
-        this.notificationService = notificationService;
-        this.toDoListRepository = toDoListRepository;
-        this.userRepository = userRepository;
+    public Optional<ToDoListItem> deleteToDoListItem(long itemId) {
+        logger.info("ToDo item deleted");
+        ToDo item = toDoListRepository.getReferenceById(itemId);
+        if (item == null) return Optional.empty();
+        ToDoListItem toDoListItem = new ToDoListItem(item.getId(), item.getUser().getUsername(), item.getDescription());
+        toDoListRepository.deleteById(itemId);
+        notificationService.sendItemDeletedNotification(toDoListItem);
+        return Optional.ofNullable(toDoListItem);
     }
 
-    public ToDoListItem createToDoListItem(String username, String description) {
+    public ToDoListItem createToDoListItem(String username, String description) throws UnknownUserException {
         // Validate the input and create a new to-do list item
-        ToDoListItem item = new ToDoListItem(atomicInt.addAndGet(1), username, description);
+        ToDoListItem item = new ToDoListItem(username, description);
         // Save the item to the database
         saveToDoListItem(item);
         // Send a notification
@@ -50,60 +44,27 @@ public class ToDoListService {
         return item;
     }
 
-    private void saveToDoListItem(ToDoListItem item) {
+    private void saveToDoListItem(ToDoListItem item) throws UnknownUserException {
         logger.info("Save ToDo item");
-        // In-memory DB
-        List<ToDoListItem> list = allItems.get(item.getUsername());
-        if (list==null) {
-            list = new ArrayList<>();
-            list.add(item);
-            allItems.put(item.getUsername(), list);
-        } else {
-            list.add(item);
-        }
-        // real DB
         Optional<User> user = userRepository.findByUsername(item.getUsername());
-        if (user.isEmpty()) throw new RuntimeException("User not found"); // TODO: revise exception type
+        if (user.isEmpty()) throw new UnknownUserException("User not found"); // TODO: revise exception type
         ToDo toDo = new ToDo(user.get(), item.getDescription());
         toDoListRepository.save(toDo);
     }
 
-    public Optional<ToDoListItem> deleteToDoListItem(int itemId) {
-        ToDoListItem item = null;
-        for (List<ToDoListItem> list : allItems.values()) {
-            Iterator<ToDoListItem> iter = list.iterator();
-            while (iter.hasNext()) {
-                item = iter.next();
-                if (item.getId() == itemId) {
-                    iter.remove();
-                    break;
-                }
-            }
-        }
-        if (item != null) {
-            notificationService.sendItemDeletedNotification(item);
-        }
-        logger.info("ToDo item deleted");
-        return Optional.ofNullable(item);
-    }
-
-    public Optional<ToDoListItem> getToDoListItem(int itemId) {
+    public Optional<ToDoListItem> getToDoListItem(long itemId) {
         logger.info("Get ToDo list item");
-        ToDoListItem foundItem = null;
-        for (List<ToDoListItem> list : allItems.values()) {
-            for (ToDoListItem item : list) {
-                if (item.getId() == itemId) {
-                    foundItem = item;
-                    break;
-                }
-            }
-        }
-        return Optional.ofNullable(foundItem);
+        ToDo item = toDoListRepository.getReferenceById(itemId);
+        return Optional.ofNullable(new ToDoListItem(item.getId(), item.getUser().getUsername(), item.getDescription()));
     }
 
     public Optional<List<ToDoListItem>> getToDoListItemList(String username) {
         logger.info("Get ToDo list of all item by user");
-        return Optional.ofNullable(allItems.get(username));
+        List<ToDoListItem> allItems = new ArrayList<>();
+        toDoListRepository.findAllByUser(username).forEach(item -> {
+            allItems.add(new ToDoListItem(item.getId(), item.getUser().getUsername(), item.getDescription()));
+        });
+        return Optional.ofNullable(allItems);
     }
 }
 

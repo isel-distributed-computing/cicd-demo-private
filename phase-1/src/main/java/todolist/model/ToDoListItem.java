@@ -2,14 +2,19 @@ package todolist.model;
 
 public class ToDoListItem {
 
-    private int id;
+    private long id;
     private String description;
     private String username;
 
     public ToDoListItem() {}
 
-    public ToDoListItem(int id, String username, String description) {
+    public ToDoListItem(long id, String username, String description) {
         this.id = id;
+        this.username = username;
+        this.description = description;
+    }
+
+    public ToDoListItem(String username, String description) {
         this.username = username;
         this.description = description;
     }
@@ -20,7 +25,7 @@ public class ToDoListItem {
     public String getDescription() {
         return description;
     }
-    public int getId() {
+    public long getId() {
         return id;
     }
     @Override
@@ -28,7 +33,7 @@ public class ToDoListItem {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ToDoListItem item = (ToDoListItem) o;
-        return id == item.id;
+        return id == item.id && username.equals(item.username) && description.equals(item.description);
     }
     public String toString() {
         return "user: " + username + " / ToDo: " + description;
