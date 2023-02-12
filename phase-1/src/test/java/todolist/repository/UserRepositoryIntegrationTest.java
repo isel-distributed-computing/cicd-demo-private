@@ -1,7 +1,5 @@
 package todolist.repository;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIf;
 import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
@@ -15,15 +13,15 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@EnabledIfSystemProperty(named = "dbtype", matches = "inmemory")
+@EnabledIfSystemProperty(named = "dbtype", matches = "postgresql")
 @SpringBootTest
-@ContextConfiguration(classes = {TestConfigH2.class})
-public class UserRepositoryTest {
+@ContextConfiguration(classes = {TestConfigPostgreSQL.class})
+public class UserRepositoryIntegrationTest {
     @Autowired
     private UserRepository userRepository;
 
-    @Transactional
     @Test
+    @Transactional
     void testFindByUsername() {
         User user = new User("test_user", "abc");
         userRepository.save(user);
@@ -35,8 +33,8 @@ public class UserRepositoryTest {
         assertThat(user.getSaltedPwd().equals("test_password"));
     }
 
-    @Transactional
     @Test
+    @Transactional
     void testGetReferenceByUsername() {
         User user = new User("test_user", "abc");
         userRepository.save(user);
