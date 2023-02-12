@@ -19,7 +19,7 @@ public class ToDoUserService {
 
     private String secret;
 
-    public ToDoUserService(@Value("${jwtsecret}") String secret, UserRepository userRepository) {
+    public ToDoUserService(@Value("${JWT_SECRET}") String secret, UserRepository userRepository) {
         this.secret = secret;
         this.userRepository = userRepository;
     }

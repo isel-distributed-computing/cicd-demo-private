@@ -61,7 +61,8 @@ public class ToDoListService {
     public Optional<List<ToDoListItem>> getToDoListItemList(String username) {
         logger.info("Get ToDo list of all item by user");
         List<ToDoListItem> allItems = new ArrayList<>();
-        toDoListRepository.findAllByUser(username).forEach(item -> {
+        User user = userRepository.getReferenceByUsername(username);
+        toDoListRepository.findAllByUser(user).forEach(item -> {
             allItems.add(new ToDoListItem(item.getId(), item.getUser().getUsername(), item.getDescription()));
         });
         return Optional.ofNullable(allItems);

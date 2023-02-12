@@ -26,13 +26,12 @@ class ToDoUserServiceTests {
     @Mock
     private UserRepository userRepository;
 
-    //@InjectMocks
     private ToDoUserService toDoUserService;
 
     public static final String NAME = "name";
     public static final String PWD = "pwd";
 
-    @Value("${jwtsecret}")
+    @Value("${JWT_SECRET}")
     private String SECRET;
 
     @BeforeEach

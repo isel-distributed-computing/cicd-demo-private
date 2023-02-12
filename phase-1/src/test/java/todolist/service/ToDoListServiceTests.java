@@ -102,7 +102,7 @@ class ToDoListServiceTests {
         ToDo item1 = new ToDo(1L, new User("testuser", "password"), "Description");
         ToDo item2 = new ToDo(2L, new User("testuser", "password"), "Description");
         ToDo item3 = new ToDo(3L, new User("testuser", "password"), "Description");
-        when(toDoListRepository.findAllByUser("testuser"))
+        when(toDoListRepository.findAllByUser(any()))
                 .thenReturn(List.of(item1, item2, item3));
 
         // Act

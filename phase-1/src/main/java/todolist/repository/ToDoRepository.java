@@ -7,7 +7,5 @@ import todolist.model.User;
 import java.util.List;
 
 public interface ToDoRepository extends JpaRepository<ToDo, Long> {
-    List<ToDo> findByUser(User user);
-
-    List<ToDo> findAllByUser(String username);
+    List<ToDo> findAllByUser(User user);
 }
