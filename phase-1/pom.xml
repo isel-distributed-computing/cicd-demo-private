@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>fit</groupId>
 	<artifactId>todolist-phase1</artifactId>
-	<version>v0.5.0</version>
+	<version>1.0.0</version>
 	<name>todolist-rest-api</name>
 	<description>A ToDo list REST API with a notification service</description>
 	<properties>
@@ -47,13 +47,25 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-crypto</artifactId>
-			<version>5.4.3</version>
+			<version>6.0.1</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
 			<version>2.0.5</version>
+		</dependency>
+
+		<!-- swagger -->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.9.2</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.9.2</version>
 		</dependency>
 
 		<!-- unit tests dependencies -->

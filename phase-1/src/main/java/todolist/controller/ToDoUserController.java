@@ -1,5 +1,6 @@
 package todolist.controller;
 
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ public class ToDoUserController {
     @Autowired
     ToDoUserService toDoUserService;
 
+    @ApiOperation(value = "Register a new user")
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody LoginRequest request) {
         boolean result = false;
@@ -30,6 +32,7 @@ public class ToDoUserController {
                 ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User registration failed");
     }
 
+    @ApiOperation(value = "login a user and return a JWT")
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequest request) {
         try {

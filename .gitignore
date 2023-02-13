@@ -27,3 +27,4 @@ hs_err_pid*
 target/
 phase-1/settings.xml
 *.env
+phase-1/env_file
