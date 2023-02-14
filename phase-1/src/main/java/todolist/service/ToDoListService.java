@@ -38,18 +38,19 @@ public class ToDoListService {
         // Validate the input and create a new to-do list item
         ToDoListItem item = new ToDoListItem(username, description);
         // Save the item to the database
-        saveToDoListItem(item);
+        ToDo todo = saveToDoListItem(item);
+        item.setId(todo.getId());
         // Send a notification
         notificationService.sendItemCreatedNotification(item);
         return item;
     }
 
-    private void saveToDoListItem(ToDoListItem item) throws UnknownUserException {
+    private ToDo saveToDoListItem(ToDoListItem item) throws UnknownUserException {
         logger.info("Save ToDo item");
         Optional<User> user = userRepository.findByUsername(item.getUsername());
         if (user.isEmpty()) throw new UnknownUserException("User not found"); // TODO: revise exception type
         ToDo toDo = new ToDo(user.get(), item.getDescription());
-        toDoListRepository.save(toDo);
+        return toDoListRepository.save(toDo);
     }
 
     public Optional<ToDoListItem> getToDoListItem(long itemId) {

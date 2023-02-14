@@ -1,10 +1,14 @@
 package todolist.controller;
 
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.tags.Tags;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import todolist.model.LoginRequest;
 import todolist.service.PasswordMismatchException;
 import todolist.service.ToDoUserService;
@@ -14,11 +18,11 @@ import java.security.NoSuchAlgorithmException;
 
 @RestController
 @RequestMapping("/user")
+@Tag(name = "ToDoUser", description = "Operations to manager users")
 public class ToDoUserController {
     @Autowired
     ToDoUserService toDoUserService;
 
-    @ApiOperation(value = "Register a new user")
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody LoginRequest request) {
         boolean result = false;
@@ -32,7 +36,7 @@ public class ToDoUserController {
                 ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User registration failed");
     }
 
-    @ApiOperation(value = "login a user and return a JWT")
+
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequest request) {
         try {

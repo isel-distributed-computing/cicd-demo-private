@@ -7,8 +7,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 @Entity
+@EnableAutoConfiguration
 @Table(name = "to_dos")
 public class ToDo {
     @Id
