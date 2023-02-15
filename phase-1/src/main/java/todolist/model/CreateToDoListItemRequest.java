@@ -5,6 +5,11 @@ public class CreateToDoListItemRequest {
     private String username;
     private String description;
 
+    public CreateToDoListItemRequest(String username, String description) {
+        this.username = username;
+        this.description = description;
+    }
+
     public String getUsername() {
         return username;
     }

@@ -1,12 +1,15 @@
 package todolist.controller;
 
+import static org.assertj.core.api.FactoryBasedNavigableListAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 //import org.junit.Before;
+import io.swagger.v3.oas.annotations.links.Link;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import todolist.model.CreateToDoListItemRequest;
 import todolist.model.ToDoListItem;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -55,10 +58,8 @@ public class ToDoListControllerTests {
         when(service.createToDoListItem(username, description))
                 .thenReturn(new ToDoListItem(1, username, description));
 
-        String requestBody = "{\n" +
-                "    \"username\": \""+ username +"\",\n" +
-                "    \"description\": \""+ description +"\"\n" +
-                "}";
+        CreateToDoListItemRequest request = new CreateToDoListItemRequest(username, description);
+        String requestJson = new ObjectMapper().writeValueAsString(request);
 
         userService.register(username, password);
         String token = userService.login(username, password);
@@ -68,17 +69,27 @@ public class ToDoListControllerTests {
             mockMvc.perform(post("/todolist")
                             .contentType(MediaType.APPLICATION_JSON)
                             .header("Authorization", "Bearer: " + token)
-                            .content(requestBody))
+                            .content(requestJson))
                     .andExpect(status().isOk());
 
+        // Check for HATEOAS links
+        // Assert
+        String responseJson = result.andReturn().getResponse().getContentAsString();
+        ToDoListItem item = new ObjectMapper().readValue(responseJson, ToDoListItem.class);
+        Assertions.assertEquals(item.getUsername(), request.getUsername());
+        Assertions.assertEquals(item.getDescription(), request.getDescription());
+        //Link selfLink = item.getLink("self");
+        //Assertions.assertEquals(selfLink, is(notNullValue()));
+        //assertThat(selfLink.getHref(), endsWith("/todolist/" + item.getId()));
+
         // Verify JSON object returned by operation
-        MvcResult mvcResult = result.andReturn();
+        /*MvcResult mvcResult = result.andReturn();
         MockHttpServletResponse response = mvcResult.getResponse();
         String responseBody = response.getContentAsString();
         ObjectMapper mapper = new ObjectMapper();
         ToDoListItem item = mapper.readValue(responseBody, ToDoListItem.class);
         Assertions.assertEquals(item.getUsername(), username);
-        Assertions.assertEquals(item.getDescription(), description);
+        Assertions.assertEquals(item.getDescription(), description);*/
     }
 
     @Test

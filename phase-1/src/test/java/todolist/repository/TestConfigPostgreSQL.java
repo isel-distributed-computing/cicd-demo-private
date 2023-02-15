@@ -1,3 +1,4 @@
+/*
 package todolist.repository;
 
 import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
@@ -69,3 +70,4 @@ public class TestConfigPostgreSQL {
         return properties;
     }
 }
+*/
