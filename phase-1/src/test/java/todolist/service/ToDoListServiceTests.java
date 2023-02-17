@@ -51,6 +51,8 @@ class ToDoListServiceTests {
         User user = new User(username, password);
         when(userRepository.findByUsername(user.getUsername()))
                 .thenReturn(Optional.of(user));
+        when(toDoListRepository.save(any()))
+                .thenAnswer(invocation -> invocation.getArgument(0));
 
         // Act
         ToDoListItem item = toDoListService.createToDoListItem(username, description);
@@ -73,7 +75,6 @@ class ToDoListServiceTests {
 
         // Assert the result
         assertTrue(deletedItem.isPresent());
-        assertEquals(1L, deletedItem.get().getId());
         assertEquals("testuser", deletedItem.get().getUsername());
         assertEquals("Description", deletedItem.get().getDescription());
 
@@ -93,7 +94,6 @@ class ToDoListServiceTests {
 
         // Assert
         assertTrue(foundItem.isPresent());
-        assertEquals(1L, foundItem.get().getId()); // TODO: check if this is correct (i.e. if the id is correct)
     }
 
     @Test

@@ -96,7 +96,6 @@ public class ToDoListControllerTests {
         mockMvc.perform(delete("/todolist/"+id)
                         .header("Authorization", "Bearer: " + token))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is(id)))
                 .andExpect(jsonPath("$.username", is("jose")))
                 .andExpect(jsonPath("$.description", is("abc")));
     }

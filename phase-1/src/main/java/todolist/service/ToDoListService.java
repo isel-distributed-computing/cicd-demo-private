@@ -39,7 +39,6 @@ public class ToDoListService {
         ToDoListItem item = new ToDoListItem(username, description);
         // Save the item to the database
         ToDo todo = saveToDoListItem(item);
-        item.setId(todo.getId());
         // Send a notification
         notificationService.sendItemCreatedNotification(item);
         return item;
