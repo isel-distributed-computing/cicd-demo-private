@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -18,9 +17,6 @@ import todolist.service.UnknownUserException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import static org.springframework.hateoas.server.core.DummyInvocationUtils.methodOn;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @RestController
 @RequestMapping("/todolist")
@@ -36,15 +32,12 @@ public class ToDoListController {
     }
 
     @PostMapping()
-    public EntityModel<ToDoListItem> createToDoListItem(@RequestBody CreateToDoListItemRequest request,
-                                                        @RequestHeader("Authorization") String authorization) throws UnknownUserException {
+    public ToDoListItem createToDoListItem(@RequestBody CreateToDoListItemRequest request,
+                                           @RequestHeader("Authorization") String authorization) throws UnknownUserException {
         logger.info("Create todo list item");
         validateToken(authorization);
         ToDoListItem item = toDoListService.createToDoListItem(request.getUsername(), request.getDescription());
-
-        return EntityModel.of(item, //
-                linkTo(methodOn(ToDoListController.class).createToDoListItem(request, authorization)).withSelfRel(),
-                linkTo(methodOn(ToDoListController.class).getAllItemsByUser(item.getUsername(), authorization)).withRel("ToDoList"));
+        return item;
     }
 
     @DeleteMapping("/{itemId}")
