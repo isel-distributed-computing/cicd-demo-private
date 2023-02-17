@@ -4,22 +4,17 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.DeliverCallback;
+import dev.failsafe.Failsafe;
+import dev.failsafe.RetryPolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.amqp.core.AmqpTemplate;
-import org.springframework.amqp.core.AnonymousQueue;
-import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
+import todolist.notificationservice.repository.EventRepository;
 
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.Duration;
 
 @Service
 public class NotificationService //{
@@ -34,6 +29,8 @@ public class NotificationService //{
     @Value("${spring.rabbitmq.password}")
     private String PASSWORD;
 
+    @Autowired
+    private EventRepository eventRepository;
 /*
     List<INotificationStrategy> notificationStrategyList = new ArrayList<>();
 
@@ -57,33 +54,35 @@ public class NotificationService //{
 */
     @Override
     public void run(String... args) throws Exception {
-        logger.info("Start listening up.");
+        logger.info(String.format("Trying to connect to %s",HOST));
 
-        //Producer
+        //Setting resilient connection on missing resources
+        RetryPolicy<Object> retryPolicy = RetryPolicy.builder()
+                .handle(Exception.class)
+                .withDelay(Duration.ofSeconds(2))
+                .withMaxRetries(10)
+                .build();
 
-        /*  ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("localhost");
-        try (Connection connection = factory.newConnection();
-             Channel channel = connection.createChannel()) {
-            channel.queueDeclare(QUEUE_NAME, false, false, false, null);
-            String message = "Hello World!";
-            channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
-            logger.info(" [x] Sent '" + message + "'");
 
-        }
-*/
-        //Consumer
+        //creating connection to RabbitMQ
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost(HOST);
-        Connection connection = factory.newConnection();
+
+        //connect with failsafe policy
+        Connection connection = Failsafe.with(retryPolicy).get(() -> factory.newConnection());
+
         Channel channel = connection.createChannel();
         channel.queueDeclare(QUEUE_NAME, false, false, false, null);
         logger.info(String.format("Waiting for messages on queue %s",QUEUE_NAME));
 
+        //Callback to handle messages
         DeliverCallback deliverCallback = (consumerTag, delivery) -> {
             String message = new String(delivery.getBody(), "UTF-8");
-            logger.info("[x] Received '" + message + "'");
+            logger.info("Received '" + message + "'");
+
         };
+
+        //Set up handler
         channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> { });
     }
 

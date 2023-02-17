@@ -8,8 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 
-//@SpringBootApplication
-@SpringBootApplication(exclude={DataSourceAutoConfiguration.class})
+@SpringBootApplication
+//@SpringBootApplication(exclude={DataSourceAutoConfiguration.class})
 /*@OpenAPIDefinition(
         info = @Info(
                 title = "ToDoList API",
