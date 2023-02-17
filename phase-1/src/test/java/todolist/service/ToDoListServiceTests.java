@@ -6,7 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import todolist.model.ToDo;
-import todolist.model.ToDoListItemResource;
+import todolist.model.ToDoListItem;
 import todolist.model.User;
 import todolist.repository.ToDoRepository;
 import todolist.repository.UserRepository;
@@ -53,7 +53,7 @@ class ToDoListServiceTests {
                 .thenReturn(Optional.of(user));
 
         // Act
-        ToDoListItemResource item = toDoListService.createToDoListItem(username, description);
+        ToDoListItem item = toDoListService.createToDoListItem(username, description);
 
         // Assert
         assertEquals(username, item.getUsername());
@@ -69,7 +69,7 @@ class ToDoListServiceTests {
         when(toDoListRepository.getReferenceById(1L)).thenReturn(item);
 
         // Act
-        Optional<ToDoListItemResource> deletedItem = toDoListService.deleteToDoListItem(1L);
+        Optional<ToDoListItem> deletedItem = toDoListService.deleteToDoListItem(1L);
 
         // Assert the result
         assertTrue(deletedItem.isPresent());
@@ -89,7 +89,7 @@ class ToDoListServiceTests {
         when(toDoListRepository.getReferenceById(1L)).thenReturn(item);
 
         // Act
-        Optional<ToDoListItemResource> foundItem = toDoListService.getToDoListItem(item.getId());
+        Optional<ToDoListItem> foundItem = toDoListService.getToDoListItem(item.getId());
 
         // Assert
         assertTrue(foundItem.isPresent());
@@ -106,7 +106,7 @@ class ToDoListServiceTests {
                 .thenReturn(List.of(item1, item2, item3));
 
         // Act
-        Optional<List<ToDoListItemResource>> itemList = toDoListService.getToDoListItemList("testuser");
+        Optional<List<ToDoListItem>> itemList = toDoListService.getToDoListItemList("testuser");
 
         // Assert
         assertTrue(itemList.isPresent());

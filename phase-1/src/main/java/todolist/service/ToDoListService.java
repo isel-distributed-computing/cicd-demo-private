@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import todolist.model.ToDo;
-import todolist.model.ToDoListItemResource;
+import todolist.model.ToDoListItem;
 import todolist.model.User;
 import todolist.repository.ToDoRepository;
 import todolist.repository.UserRepository;
@@ -24,19 +24,19 @@ public class ToDoListService {
     @Autowired
     private UserRepository userRepository;
 
-    public Optional<ToDoListItemResource> deleteToDoListItem(long itemId) {
+    public Optional<ToDoListItem> deleteToDoListItem(long itemId) {
         logger.info("ToDo item deleted");
         ToDo item = toDoListRepository.getReferenceById(itemId);
         if (item == null) return Optional.empty();
-        ToDoListItemResource toDoListItemResource = new ToDoListItemResource(item.getId(), item.getUser().getUsername(), item.getDescription());
+        ToDoListItem toDoListItem = new ToDoListItem(item.getId(), item.getUser().getUsername(), item.getDescription());
         toDoListRepository.deleteById(itemId);
-        notificationService.sendItemDeletedNotification(toDoListItemResource);
-        return Optional.ofNullable(toDoListItemResource);
+        notificationService.sendItemDeletedNotification(toDoListItem);
+        return Optional.ofNullable(toDoListItem);
     }
 
-    public ToDoListItemResource createToDoListItem(String username, String description) throws UnknownUserException {
+    public ToDoListItem createToDoListItem(String username, String description) throws UnknownUserException {
         // Validate the input and create a new to-do list item
-        ToDoListItemResource item = new ToDoListItemResource(username, description);
+        ToDoListItem item = new ToDoListItem(username, description);
         // Save the item to the database
         ToDo todo = saveToDoListItem(item);
         item.setId(todo.getId());
@@ -45,7 +45,7 @@ public class ToDoListService {
         return item;
     }
 
-    private ToDo saveToDoListItem(ToDoListItemResource item) throws UnknownUserException {
+    private ToDo saveToDoListItem(ToDoListItem item) throws UnknownUserException {
         logger.info("Save ToDo item");
         Optional<User> user = userRepository.findByUsername(item.getUsername());
         if (user.isEmpty()) throw new UnknownUserException("User not found"); // TODO: revise exception type
@@ -53,18 +53,18 @@ public class ToDoListService {
         return toDoListRepository.save(toDo);
     }
 
-    public Optional<ToDoListItemResource> getToDoListItem(long itemId) {
+    public Optional<ToDoListItem> getToDoListItem(long itemId) {
         logger.info("Get ToDo list item");
         ToDo item = toDoListRepository.getReferenceById(itemId);
-        return Optional.ofNullable(new ToDoListItemResource(item.getId(), item.getUser().getUsername(), item.getDescription()));
+        return Optional.ofNullable(new ToDoListItem(item.getId(), item.getUser().getUsername(), item.getDescription()));
     }
 
-    public Optional<List<ToDoListItemResource>> getToDoListItemList(String username) {
+    public Optional<List<ToDoListItem>> getToDoListItemList(String username) {
         logger.info("Get ToDo list of all item by user");
-        List<ToDoListItemResource> allItems = new ArrayList<>();
+        List<ToDoListItem> allItems = new ArrayList<>();
         User user = userRepository.getReferenceByUsername(username);
         toDoListRepository.findAllByUser(user).forEach(item -> {
-            allItems.add(new ToDoListItemResource(item.getId(), item.getUser().getUsername(), item.getDescription()));
+            allItems.add(new ToDoListItem(item.getId(), item.getUser().getUsername(), item.getDescription()));
         });
         return Optional.ofNullable(allItems);
     }

@@ -3,7 +3,7 @@ package todolist.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import todolist.model.ToDoListItemResource;
+import todolist.model.ToDoListItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,14 +18,14 @@ public class NotificationService {
         notificationStrategyList.add(strategy);
     }
 
-    public void sendItemCreatedNotification(ToDoListItemResource item) {
+    public void sendItemCreatedNotification(ToDoListItem item) {
         logger.info("Item created: " + item);
         for(INotificationStrategy s : notificationStrategyList) {
             s.sendCreateNotification(item);
         }
     }
 
-    public void sendItemDeletedNotification(ToDoListItemResource item) {
+    public void sendItemDeletedNotification(ToDoListItem item) {
         logger.info("Item deleted: " + item);
         for(INotificationStrategy s : notificationStrategyList) {
             s.sendDeleteNotification(item);

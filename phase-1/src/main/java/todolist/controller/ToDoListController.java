@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import todolist.model.CreateToDoListItemRequest;
-import todolist.model.ToDoListItemResource;
+import todolist.model.ToDoListItem;
 import todolist.service.ToDoListService;
 import todolist.service.ToDoUserService;
 import todolist.service.UnknownUserException;
@@ -36,34 +36,23 @@ public class ToDoListController {
     }
 
     @PostMapping()
-    public EntityModel<ToDoListItemResource> createToDoListItem(@RequestBody CreateToDoListItemRequest request,
-                                                                @RequestHeader("Authorization") String authorization) throws UnknownUserException {
+    public EntityModel<ToDoListItem> createToDoListItem(@RequestBody CreateToDoListItemRequest request,
+                                                        @RequestHeader("Authorization") String authorization) throws UnknownUserException {
         logger.info("Create todo list item");
         validateToken(authorization);
-        ToDoListItemResource item = toDoListService.createToDoListItem(request.getUsername(), request.getDescription());
+        ToDoListItem item = toDoListService.createToDoListItem(request.getUsername(), request.getDescription());
 
         return EntityModel.of(item, //
+                linkTo(methodOn(ToDoListController.class).createToDoListItem(request, authorization)).withSelfRel(),
                 linkTo(methodOn(ToDoListController.class).getAllItemsByUser(item.getUsername(), authorization)).withRel("ToDoList"));
     }
 
     @DeleteMapping("/{itemId}")
-    public ToDoListItemResource deleteToDoListItem(@PathVariable("itemId") long itemId,
-                                                   @RequestHeader("Authorization") String authorization) {
+    public ToDoListItem deleteToDoListItem(@PathVariable("itemId") int itemId,
+                                           @RequestHeader("Authorization") String authorization) {
         logger.info("Delete todo list item");
         validateToken(authorization);
-        Optional<ToDoListItemResource> item = toDoListService.deleteToDoListItem(itemId);
-        if (!item.isEmpty()) {
-            return item.get();
-        }
-        throw new ResourceNotFoundException();
-    }
-
-    @GetMapping("/{itemId}")
-    public ToDoListItemResource getToDoListItem(@PathVariable("itemId") long itemId,
-                                                @RequestHeader("Authorization") String authorization) {
-        logger.info("Get todo list item");
-        validateToken(authorization);
-        Optional<ToDoListItemResource> item = toDoListService.deleteToDoListItem(itemId);
+        Optional<ToDoListItem> item = toDoListService.deleteToDoListItem(itemId);
         if (!item.isEmpty()) {
             return item.get();
         }
@@ -71,11 +60,11 @@ public class ToDoListController {
     }
 
     @GetMapping("/{username}")
-    public List<ToDoListItemResource> getAllItemsByUser(@PathVariable("username") String username,
-                                                        @RequestHeader("Authorization") String authorization) {
+    public List<ToDoListItem> getAllItemsByUser(@PathVariable("username") String username,
+                                                @RequestHeader("Authorization") String authorization) {
         logger.info("Get all items from user");
         validateToken(authorization);
-        Optional<List<ToDoListItemResource>> list = toDoListService.getToDoListItemList(username);
+        Optional<List<ToDoListItem>> list = toDoListService.getToDoListItemList(username);
         if (!list.isEmpty())
             return list.get();
         return new ArrayList<>();

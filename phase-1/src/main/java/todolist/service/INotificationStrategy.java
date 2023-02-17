@@ -1,8 +1,8 @@
 package todolist.service;
 
-import todolist.model.ToDoListItemResource;
+import todolist.model.ToDoListItem;
 
 public interface INotificationStrategy {
-    void sendCreateNotification(ToDoListItemResource item);
-    void sendDeleteNotification(ToDoListItemResource item);
+    void sendCreateNotification(ToDoListItem item);
+    void sendDeleteNotification(ToDoListItem item);
 }

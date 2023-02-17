@@ -1,26 +1,19 @@
 package todolist.model;
 
-import org.springframework.hateoas.RepresentationModel;
-import todolist.controller.ToDoListController;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
-public class ToDoListItemResource extends RepresentationModel<ToDoListItemResource> {
+public class ToDoListItem {
     private long id;
     private String description;
     private String username;
 
-    public ToDoListItemResource() {}
+    public ToDoListItem() {}
 
-    public ToDoListItemResource(long id, String username, String description) {
+    public ToDoListItem(long id, String username, String description) {
         this.id = id;
         this.username = username;
         this.description = description;
-        add(linkTo(methodOn(ToDoListController.class).getToDoListItem(id, null)).withSelfRel());
     }
 
-    public ToDoListItemResource(String username, String description) {
+    public ToDoListItem(String username, String description) {
         this.username = username;
         this.description = description;
     }
@@ -41,7 +34,7 @@ public class ToDoListItemResource extends RepresentationModel<ToDoListItemResour
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ToDoListItemResource item = (ToDoListItemResource) o;
+        ToDoListItem item = (ToDoListItem) o;
         return id == item.id && username.equals(item.username) && description.equals(item.description);
     }
     public String toString() {

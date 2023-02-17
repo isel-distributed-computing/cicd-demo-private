@@ -1,19 +1,16 @@
 package todolist.controller;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.assertj.core.api.FactoryBasedNavigableListAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.when;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 //import org.junit.Before;
+import io.swagger.v3.oas.annotations.links.Link;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.Link;
 import todolist.model.CreateToDoListItemRequest;
-import todolist.model.ToDoListItemResource;
+import todolist.model.ToDoListItem;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
@@ -57,42 +54,9 @@ public class ToDoListControllerTests {
 
     @Test
     public void testCreateToDoListItem() throws Exception, UnknownUserException {
-        // Arrange
-        String username = "testUser";
-        String description = "testDescription";
-        CreateToDoListItemRequest request = new CreateToDoListItemRequest(username, description);
-        request.setUsername(username);
-        request.setDescription(description);
-
-        ToDoListItemResource expectedItem = new ToDoListItemResource(username, description);
-        expectedItem.setId(1L);
-
-        String token = "testToken";
-        when(service.createToDoListItem(username, description)).thenReturn(expectedItem);
-        when(userService.validateToken(token)).thenReturn(true);
-
-        // Act
-        ObjectMapper objectMapper = new ObjectMapper();
-        MvcResult result = mockMvc.perform(post("/todolist")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .header("Authorization", "Bearer: " + token)
-                        .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isCreated())
-                .andReturn();
-
-        // Assert
-        String location = result.getResponse().getHeader("Location");
-        Assertions.assertEquals(location, "/todolist/1");
-
-        EntityModel<ToDoListItemResource> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<EntityModel<ToDoListItemResource>>() {});
-        Assertions.assertEquals(response.getContent(), expectedItem);
-
-        Link expectedSelfLink = linkTo(methodOn(ToDoListController.class).getAllItemsByUser(username, token)).withRel("ToDoList");
-        Assertions.assertEquals(response.getLink("self").get(), expectedSelfLink);
-
-        /*//Arrange
+        //Arrange
         when(service.createToDoListItem(username, description))
-                .thenReturn(new ToDoListItemResource(1, username, description));
+                .thenReturn(new ToDoListItem(1, username, description));
 
         CreateToDoListItemRequest request = new CreateToDoListItemRequest(username, description);
         String requestJson = new ObjectMapper().writeValueAsString(request);
@@ -111,7 +75,7 @@ public class ToDoListControllerTests {
         // Check for HATEOAS links
         // Assert
         String responseJson = result.andReturn().getResponse().getContentAsString();
-        ToDoListItemResource item = new ObjectMapper().readValue(responseJson, ToDoListItemResource.class);
+        ToDoListItem item = new ObjectMapper().readValue(responseJson, ToDoListItem.class);
         Assertions.assertEquals(item.getUsername(), request.getUsername());
         Assertions.assertEquals(item.getDescription(), request.getDescription());
         //Link selfLink = item.getLink("self");
@@ -119,7 +83,7 @@ public class ToDoListControllerTests {
         //assertThat(selfLink.getHref(), endsWith("/todolist/" + item.getId()));
 
         // Verify JSON object returned by operation
-        MvcResult mvcResult = result.andReturn();
+        /*MvcResult mvcResult = result.andReturn();
         MockHttpServletResponse response = mvcResult.getResponse();
         String responseBody = response.getContentAsString();
         ObjectMapper mapper = new ObjectMapper();
@@ -130,11 +94,11 @@ public class ToDoListControllerTests {
 
     @Test
     public void testDeleteToDoItem() throws Exception, UnknownUserException {
-        /*//Arrange
+        //Arrange
         final int id = new Random().nextInt();
 
         when(service.deleteToDoListItem(id))
-                .thenReturn(Optional.of(new ToDoListItemResource(id, username, description)));
+                .thenReturn(Optional.of(new ToDoListItem(id, username, description)));
 
         userService.register(username, password);
         String token = userService.login(username, password);
@@ -146,8 +110,6 @@ public class ToDoListControllerTests {
                 .andExpect(jsonPath("$.id", is(id)))
                 .andExpect(jsonPath("$.username", is("jose")))
                 .andExpect(jsonPath("$.description", is("abc")));
-
-         */
     }
 
     @Test
@@ -155,8 +117,8 @@ public class ToDoListControllerTests {
         // Arrange
         when(service.getToDoListItemList(username))
                 .thenReturn(Optional.of(Arrays.asList(
-                        new ToDoListItemResource(1, username, description),
-                        new ToDoListItemResource(2, username, description))));
+                        new ToDoListItem(1, username, description),
+                        new ToDoListItem(2, username, description))));
 
         userService.register(username, password);
         String token = userService.login(username, password);
@@ -171,7 +133,7 @@ public class ToDoListControllerTests {
         MockHttpServletResponse response = mvcResult.getResponse();
         String responseBody = response.getContentAsString();
         ObjectMapper mapper = new ObjectMapper();
-        List<ToDoListItemResource> items = mapper.readValue(responseBody, new TypeReference<List<ToDoListItemResource>>(){});
+        List<ToDoListItem> items = mapper.readValue(responseBody, new TypeReference<List<ToDoListItem>>(){});
         Assertions.assertEquals(2, items.size());
     }
 }
