@@ -10,6 +10,7 @@ import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.AnonymousQueue;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -24,7 +25,15 @@ import java.util.List;
 public class NotificationService //{
     implements CommandLineRunner {
     private static final Logger logger = LoggerFactory.getLogger(NotificationService.class);
-    private final static String QUEUE_NAME = "myQueue";
+    @Value("${spring.rabbitmq.queue}")
+    private String QUEUE_NAME;
+    @Value("${spring.rabbitmq.host}")
+    private String HOST;
+    @Value("${spring.rabbitmq.username}")
+    private String USERNAME;
+    @Value("${spring.rabbitmq.password}")
+    private String PASSWORD;
+
 /*
     List<INotificationStrategy> notificationStrategyList = new ArrayList<>();
 
@@ -46,19 +55,6 @@ public class NotificationService //{
         }
     }
 */
-
-    public void init() {
-        logger.info("Service up.");
-    }
-
-    public void startListening()
-    {
-        logger.info("Start listening up.");
-
-        logger.info("Closing service.");
-
-    }
-
     @Override
     public void run(String... args) throws Exception {
         logger.info("Start listening up.");
@@ -78,13 +74,11 @@ public class NotificationService //{
 */
         //Consumer
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("localhost");
+        factory.setHost(HOST);
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
-
         channel.queueDeclare(QUEUE_NAME, false, false, false, null);
-        logger.info(" [*] Waiting for messages. To exit press CTRL+C");
-
+        logger.info(String.format("Waiting for messages on queue %s",QUEUE_NAME));
 
         DeliverCallback deliverCallback = (consumerTag, delivery) -> {
             String message = new String(delivery.getBody(), "UTF-8");
@@ -92,5 +86,6 @@ public class NotificationService //{
         };
         channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> { });
     }
+
 
 }
