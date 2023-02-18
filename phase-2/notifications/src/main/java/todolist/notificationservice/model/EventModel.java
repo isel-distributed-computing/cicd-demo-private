@@ -10,8 +10,8 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 @Table(name = "eventlog")
 public class EventModel {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     String id;
-    String userName;
+    String username;
     String action;
 }

@@ -1,5 +1,6 @@
 package todolist.notificationservice.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -12,9 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
+import todolist.notificationservice.model.EventModel;
 import todolist.notificationservice.repository.EventRepository;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class NotificationService //{
@@ -31,27 +35,28 @@ public class NotificationService //{
 
     @Autowired
     private EventRepository eventRepository;
-/*
+
     List<INotificationStrategy> notificationStrategyList = new ArrayList<>();
 
     public void addNotificationStrategy(INotificationStrategy strategy) {
         notificationStrategyList.add(strategy);
     }
 
-    public void sendItemCreatedNotification(ToDoListItem item) {
-        logger.info("Item created: " + item);
-        for(INotificationStrategy s : notificationStrategyList) {
-            s.sendCreateNotification(item);
-        }
+    private void logDB(EventModel evt)
+    {
+        eventRepository.save(evt);
+        eventRepository.flush();
     }
+    private void notify(EventModel evt)
+    {
+        logger.info(String.format("Received '%s'",evt));
 
-    public void sendItemDeletedNotification(ToDoListItem item) {
-        logger.info("Item deleted: " + item);
-        for(INotificationStrategy s : notificationStrategyList) {
-            s.sendDeleteNotification(item);
+        logDB(evt);
+        for (INotificationStrategy s : notificationStrategyList) {
+            s.sendNotification(evt);
         }
+
     }
-*/
     @Override
     public void run(String... args) throws Exception {
         logger.info(String.format("Trying to connect to %s",HOST));
@@ -71,15 +76,27 @@ public class NotificationService //{
         //connect with failsafe policy
         Connection connection = Failsafe.with(retryPolicy).get(() -> factory.newConnection());
 
+        //create channel and queue
         Channel channel = connection.createChannel();
         channel.queueDeclare(QUEUE_NAME, false, false, false, null);
         logger.info(String.format("Waiting for messages on queue %s",QUEUE_NAME));
 
         //Callback to handle messages
-        DeliverCallback deliverCallback = (consumerTag, delivery) -> {
-            String message = new String(delivery.getBody(), "UTF-8");
-            logger.info("Received '" + message + "'");
+        DeliverCallback deliverCallback = (consumerTag, delivery) ->
+        {
+            try {
+                String message = new String(delivery.getBody(), "UTF-8");
 
+                //convert json to java object
+                ObjectMapper objectMapper = new ObjectMapper();
+                EventModel evt = objectMapper.readValue(message, EventModel.class);
+                //Notify all 
+                this.notify(evt);
+            }catch (Exception ex)
+            {
+                logger.error("handling messages: ",ex);
+            }
+            logger.info(String.format("Waiting for messages on queue %s",QUEUE_NAME));
         };
 
         //Set up handler

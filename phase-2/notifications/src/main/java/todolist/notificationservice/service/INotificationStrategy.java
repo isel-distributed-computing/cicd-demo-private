@@ -1,6 +1,7 @@
 package todolist.notificationservice.service;
 
+import todolist.notificationservice.model.EventModel;
+
 public interface INotificationStrategy {
- /*   void sendCreateNotification(ToDoListItem item);
-    void sendDeleteNotification(ToDoListItem item);*/
+    void sendNotification(EventModel evt);
 }
