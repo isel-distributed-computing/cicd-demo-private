@@ -36,11 +36,15 @@ public class NotificationService //{
     @Autowired
     private EventRepository eventRepository;
 
-    List<INotificationStrategy> notificationStrategyList = new ArrayList<>();
 
-    public void addNotificationStrategy(INotificationStrategy strategy) {
-        notificationStrategyList.add(strategy);
-    }
+    /*
+    Autowired used for demonstrations purposes.
+    It can be a static solution, but we can have an API
+     supporting registering to populate the list.
+     */
+    @Autowired(required = false)
+    private List<INotificationStrategy> notificationStrategyList;
+
 
     private void logDB(EventModel evt)
     {
@@ -52,7 +56,7 @@ public class NotificationService //{
         logger.info(String.format("Received '%s'",evt));
 
         logDB(evt);
-        for (INotificationStrategy s : notificationStrategyList) {
+        for(INotificationStrategy s : notificationStrategyList) {
             s.sendNotification(evt);
         }
 
@@ -90,7 +94,7 @@ public class NotificationService //{
                 //convert json to java object
                 ObjectMapper objectMapper = new ObjectMapper();
                 EventModel evt = objectMapper.readValue(message, EventModel.class);
-                //Notify all 
+                //Notify all
                 this.notify(evt);
             }catch (Exception ex)
             {
