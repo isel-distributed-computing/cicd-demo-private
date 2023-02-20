@@ -25,13 +25,14 @@ public class NotificationService //{
     implements CommandLineRunner {
     private static final Logger logger = LoggerFactory.getLogger(NotificationService.class);
     @Value("${spring.rabbitmq.queue}")
-    private String QUEUE_NAME;
+    String QUEUE_NAME;
     @Value("${spring.rabbitmq.host}")
     private String HOST;
     @Value("${spring.rabbitmq.username}")
     private String USERNAME;
     @Value("${spring.rabbitmq.password}")
     private String PASSWORD;
+
 
     @Autowired
     private EventRepository eventRepository;
