@@ -16,12 +16,24 @@ public class NotificationsConfig {
       This simple implementation uses the console
        */
     @Bean
-    public INotificationStrategy getElement() {
+    public INotificationStrategy getSubscriber1() {
         return new INotificationStrategy() {
             @Override
             public void sendNotification(EventModel evt) {
-                logger.info(String.format("Subscriber: '%s'",evt));
+                logger.info(String.format("Subscriber1: '%s'",evt));
             }
         };
+
+    }
+
+    @Bean
+    public INotificationStrategy getSubscriber2() {
+        return new INotificationStrategy() {
+            @Override
+            public void sendNotification(EventModel evt) {
+                logger.info(String.format("Subscriber2: '%s'",evt));
+            }
+        };
+
     }
 }
