@@ -1,1 +1,1 @@
-create database notification;
+CREATE DATABASE notification;
