@@ -5,7 +5,7 @@ DATABASE_PASSWORD=changeit
 # rabbitmq
 RMQ_HOST=solvit-rabbitmq
 RMQ_PORT=5672
-RMQ_USER=guest
-RMQ_PASS=guest
+RMQ_USER=solvit
+RMQ_PASS=changeit
 RMQ_QUEUE=notificationqueue
 

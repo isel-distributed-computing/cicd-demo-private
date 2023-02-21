@@ -6,11 +6,6 @@ public class ToDoListItem {
 
     public ToDoListItem() {}
 
-    public ToDoListItem(long id, String username, String description) {
-        this.username = username;
-        this.description = description;
-    }
-
     public ToDoListItem(String username, String description) {
         this.username = username;
         this.description = description;

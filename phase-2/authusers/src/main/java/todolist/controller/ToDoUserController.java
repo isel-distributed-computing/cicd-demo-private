@@ -1,5 +1,7 @@
 package todolist.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +23,7 @@ import java.security.NoSuchAlgorithmException;
 public class ToDoUserController {
     @Autowired
     ToDoUserService toDoUserService;
+    private Logger logger = LoggerFactory.getLogger(ToDoUserController.class);
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody LoginRequest request) {
@@ -47,10 +50,23 @@ public class ToDoUserController {
     }
 
     @PostMapping("/validate")
-    public ResponseEntity<String> validate(@RequestBody String token) {
-        if (toDoUserService.validateToken(token))
-            return ResponseEntity.ok().build();
-        else
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    public ResponseEntity<ResponseDetails> validate(@RequestBody String token) {
+        logger.info("Validating token <"+token+">");
+        if (toDoUserService.validateToken(token)) {
+            logger.info("Token validation successful <"+token+">");
+            ResponseDetails responseDetails = new ResponseDetails(
+                    "Ok",
+                    "Token validation was successful",
+                    "The provided token is valid");
+            return ResponseEntity.status(HttpStatus.OK).body(responseDetails);
+        } else {
+            logger.info("Token validation failed <"+token+">");
+            ResponseDetails responseDetails = new ResponseDetails(
+                    "Error",
+                    "Token validation failed",
+                    "The provided token is not valid");
+            return ResponseEntity.status(HttpStatus.OK).body(responseDetails);
+        }
     }
+
 }

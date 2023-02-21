@@ -6,8 +6,8 @@ DATABASE_PASSWORD=changeit
 AUTH_SERVICE_URL=http://authuser:8080
 
 # rabbitmq
-RMQ_HOST=solvit-cicd-rabbitmq
+RMQ_HOST=solvit-rabbitmq
 RMQ_PORT=5672
-RMQ_USER=guest
-RMQ_PASS=guest
+RMQ_USER=solvit
+RMQ_PASS=changeit
 RMQ_QUEUE=notificationqueue

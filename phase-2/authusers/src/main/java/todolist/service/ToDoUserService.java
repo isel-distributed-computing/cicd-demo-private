@@ -1,8 +1,11 @@
 package todolist.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,6 +20,8 @@ import java.util.Optional;
 public class ToDoUserService {
     private UserRepository userRepository;
     private String secret;
+    private Logger logger = LoggerFactory.getLogger(ToDoUserService.class);
+
     public ToDoUserService(@Value("${app.jwt_secret}") String secret, UserRepository userRepository) {
         this.secret = secret;
         this.userRepository = userRepository;
@@ -58,6 +63,8 @@ public class ToDoUserService {
                     .verify(token);
             return true;
         } catch (Exception e) {
+            logger.error("Invalid token: " + token);
+            logger.error("Exception was ", e);
             return false;
         }
     }

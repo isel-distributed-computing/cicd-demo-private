@@ -14,11 +14,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import todolist.controller.ResponseDetails;
 import todolist.model.ToDo;
 import todolist.model.ToDoListItem;
 import todolist.repository.ToDoRepository;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,15 +31,13 @@ public class ToDoListService {
     private static final Logger logger = LoggerFactory.getLogger(ToDoListService.class);
     private ConnectionFactory mqFactory;
 
-    //@Autowired
-    //private NotificationService notificationService;
-    @Value("${todolist.QUEUE_NAME")
+    @Value("${todolist.QUEUE_NAME}")
     private String mqQueueName;
-    @Value("${todolist.QUEUE_HOST")
+    @Value("${todolist.RABBITMQ_HOST}")
     private String mqHostName;
-    @Value("${todolist.QUEUE_USERNAME")
+    @Value("${todolist.RABBITMQ_USER}")
     private String mqUserName;
-    @Value("${todolist.QUEUE_PASSWORD")
+    @Value("${todolist.RABBITMQ_PASS")
     private String mqPassword;
 
     @Value("${todolist.AUTH_SERVICE_URL}")
@@ -70,7 +70,7 @@ public class ToDoListService {
         // Get the item from the database
         ToDo item = toDoListRepository.getReferenceById(itemId);
         if (item == null) return Optional.empty();
-        ToDoListItem toDoListItem = new ToDoListItem(item.getId(), item.getUsername(), item.getDescription());
+        ToDoListItem toDoListItem = new ToDoListItem(item.getUsername(), item.getDescription());
         toDoListRepository.deleteById(itemId);
 
         // Send a notification
@@ -88,7 +88,7 @@ public class ToDoListService {
         // Get all items from the database
         List<ToDoListItem> allItems = new ArrayList<>();
         toDoListRepository.findAllByUsername(username).forEach(item -> {
-            allItems.add(new ToDoListItem(item.getId(), item.getUsername(), item.getDescription()));
+            allItems.add(new ToDoListItem(item.getUsername(), item.getDescription()));
         });
         return Optional.ofNullable(allItems);
     }
@@ -131,26 +131,31 @@ public class ToDoListService {
         // Create a factory connection and set the connection parameters
         mqFactory = new ConnectionFactory();
         mqFactory.setHost(mqHostName);
-        mqFactory.setUsername(mqUserName);
-        mqFactory.setPassword(mqPassword);
+        //mqFactory.setUsername(mqUserName);
+        //mqFactory.setPassword(mqPassword);
     }
 
     private boolean validateTokenWithAuthService(String authorization) {
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setContentType(MediaType.TEXT_PLAIN);
+
+        /*String body = authorization;
+        byte[] bodyBytes = body.getBytes(StandardCharsets.UTF_8);
+        HttpEntity<byte[]> request = new HttpEntity<>(bodyBytes, headers);*/
+
         HttpEntity<String> request = new HttpEntity<>(authorization, headers);
 
-        String authEndpoint = authServiceURL + "/validate";
+        String authEndpoint = authServiceURL + "/user/validate";
         logger.info("Calling auth service at " + authEndpoint);
-        ResponseEntity<String> response = restTemplate
-                .postForEntity(
-                        authEndpoint,
-                        request,
-                        String.class);
-        HttpStatusCode code = response.getStatusCode();
-        return code.is2xxSuccessful();
+        ResponseEntity<ResponseDetails> response = restTemplate.postForEntity(authEndpoint, request, ResponseDetails.class);
+        if (response.getStatusCode() == HttpStatus.OK) {
+            ResponseDetails responseDetails = response.getBody();
+            return responseDetails.getCode().equals("Ok");
+        } else {
+            return false;
+        }
     }
 }
 
