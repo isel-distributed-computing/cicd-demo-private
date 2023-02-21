@@ -23,6 +23,7 @@
 hs_err_pid*
 
 .idea
+*.iml
 .DS_Store
 target/
 phase-1/settings.xml
