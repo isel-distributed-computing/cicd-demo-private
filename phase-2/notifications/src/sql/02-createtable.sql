@@ -1,5 +1,5 @@
-drop table if exists eventlog;
-create table eventlog
+DROP TABLE IF EXISTS eventlog;
+CREATE TABLE eventlog
 (
     id SERIAL PRIMARY KEY,
     username VARCHAR(255),
