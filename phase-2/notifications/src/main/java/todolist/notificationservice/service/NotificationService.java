@@ -46,6 +46,10 @@ public class NotificationService //{
     @Autowired(required = false)
     private List<INotificationStrategy> notificationStrategyList;
 
+    private void setupDB()
+    {
+
+    }
 
     private void logDB(EventModel evt)
     {

@@ -1,0 +1,46 @@
+version: "3.9"
+services:
+  postgres-cicd:
+    image: postgres
+    restart: always
+    container_name: postgres-cicd
+    #ports:
+    #- "127.0.0.1:5432:5432"
+    volumes:
+      - "./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d"
+    healthcheck:
+       test: ["CMD-SHELL", "pg_isready -U postgres"]
+       interval: 5s
+       timeout: 5s
+       retries: 5
+    environment:
+      POSTGRES_PASSWORD: ${DATABASE_USERNAME}
+      POSTGRES_USER: ${POSTGRES_PASSWORD}   
+  rabbit-cicd:
+    image: rabbitmq:3-management
+    restart: always
+    container_name: rabbit-cicd
+    ports:
+    #- "127.0.0.1:5672:5672"
+    - "127.0.0.1:15672:15672"
+  notification-cicd:
+    image: notifications
+    restart: always
+    container_name: notification-cicd
+    #links:
+    #  - postgres-cicd
+    #  - rabbit-cicd
+    depends_on:
+      - postgres-cicd
+      - rabbit-cicd
+    environment:
+      DATABASE_URL: jdbc:postgresql://postgres-cicd:5432/notification
+      DATABASE_USERNAME: ${DATABASE_USERNAME}
+      DATABASE_PASSWORD: ${DATABASE_USERNAME}
+      RMQ_QUEUE: ${RMQ_QUEUE}
+      RMQ_HOST: rabbit-cicd
+      RMQ_USER: guest
+      RMQ_PASS: guest
+      RMQ_PORT: 5672
+
+    
