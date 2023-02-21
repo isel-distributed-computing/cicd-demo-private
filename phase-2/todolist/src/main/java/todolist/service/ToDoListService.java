@@ -103,6 +103,11 @@ public class ToDoListService {
         if (mqFactory == null) {
             initFactory();
         }
+        logger.info("Sending notification for "
+                + item.getUsername()
+                + " with action "
+                + create.toString()
+                + " to queue " + mqQueueName);
         // Create a connection and channel
         Connection connection = mqFactory.newConnection();
         Channel channel = connection.createChannel();
