@@ -1,9 +1,0 @@
-RMQ_QUEUE=notificationqueue
-RMQ_HOST=solvit-rabbitmq
-RMQ_USER=guest
-RMQ_PASS=guest
-RMQ_PORT=5672
-
-DATABASE_URL=jdbc:postgresql://postgres-cicd:5432/notification
-DATABASE_USERNAME=postgres
-DATABASE_PASSWORD=changeit
