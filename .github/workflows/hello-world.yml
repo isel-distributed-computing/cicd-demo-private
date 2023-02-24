@@ -9,7 +9,7 @@ jobs:
         # Sequence of tasks that will be executed as part of the job
         steps:
         # Checks-out the repository
-        - uses: actions/checkout@v2     
+        - uses: actions/checkout@v3     
         # Runs a single command using the runner shell
         - name: Run a one-line script
           run: echo Hello, world!
