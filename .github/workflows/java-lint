@@ -1,0 +1,24 @@
+name: Java Lint
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          
+      - name: Install Checkstyle
+        run: |
+          curl -LO https://github.com/checkstyle/checkstyle/releases/download/checkstyle-8.44/checkstyle-8.44-all.jar
+          chmod u+x checkstyle-8.44-all.jar
+
+      - name: Run Checkstyle
+        run: java -jar checkstyle-8.44-all.jar -c google_checks.xml src
