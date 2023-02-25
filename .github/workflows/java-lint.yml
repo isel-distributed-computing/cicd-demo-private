@@ -22,4 +22,4 @@ jobs:
           chmod u+x checkstyle-8.44-all.jar
 
       - name: Run Checkstyle
-        run: java -jar checkstyle-8.44-all.jar -c google_checks.xml src
+        run: java -jar checkstyle-8.44-all.jar -c google_checks.xml phase1/src
