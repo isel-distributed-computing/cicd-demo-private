@@ -21,5 +21,7 @@ jobs:
           curl -LO https://github.com/checkstyle/checkstyle/releases/download/checkstyle-8.44/checkstyle-8.44-all.jar
           chmod u+x checkstyle-8.44-all.jar
 
-      - name: Run Checkstyle
-        run: java -jar checkstyle-8.44-all.jar -c google_checks.xml phase1/src
+      - name: Run linting checks
+        uses: reviewdog/action-maven-lint@v1
+        with:
+          working-directory: ./phase1/src
