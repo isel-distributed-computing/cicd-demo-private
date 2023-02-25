@@ -1,27 +1,47 @@
-name: Java Lint
+---
+#################################
+#################################
+## Super Linter GitHub Actions ##
+#################################
+#################################
+name: Lint Code Base
 
-on: [push, pull_request]
+#############################
+# Start the job on demand.  #
+#############################
+on:
+  workflow_dispatch
 
+###############
+# Set the Job #
+###############
 jobs:
   build:
+    # Name the Job
+    name: Lint Code Base
+    # Set the agent to run on
     runs-on: ubuntu-latest
 
+    ##################
+    # Load all steps #
+    ##################
     steps:
-      - name: Checkout code
+      ##########################
+      # Checkout the code base #
+      ##########################
+      - name: Checkout Code
         uses: actions/checkout@v3
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
         with:
-          java-version: '17'
-          distribution: 'temurin'
-          
-      - name: Install Checkstyle
-        run: |
-          curl -LO https://github.com/checkstyle/checkstyle/releases/download/checkstyle-8.44/checkstyle-8.44-all.jar
-          chmod u+x checkstyle-8.44-all.jar
+          # Full git history is needed to get a proper
+          # list of changed files within `super-linter`
+          fetch-depth: 0
 
-      - name: Run linting checks
-        uses: reviewdog/action-maven-lint@v1
-        with:
-          working-directory: ./phase1/src
+      ################################
+      # Run Linter against code base #
+      ################################
+      - name: Lint Code Base
+        uses: github/super-linter@v4
+        env:
+          VALIDATE_ALL_CODEBASE: false
+          DEFAULT_BRANCH: master
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
