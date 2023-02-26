@@ -1,0 +1,16 @@
+name: Hello world
+# This is a basic workflow to help you get started with Actions
+# name: Demo workflow
+# Controls when the workflow will run
+on: [workflow_dispatch]
+
+jobs:
+    hello-world-job: # The type of runner that the job will run on
+        runs-on: [self-hosted, aqua-solvit]       
+        # Sequence of tasks that will be executed as part of the job
+        steps:
+        # Checks-out the repository
+        - uses: actions/checkout@v3     
+        # Runs a single command using the runner shell
+        - name: Run a one-line script
+          run: echo Hello, world!
