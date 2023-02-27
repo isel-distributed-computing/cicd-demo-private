@@ -14,3 +14,11 @@ jobs:
         # Runs a single command using the runner shell
         - name: Run a one-line script
           run: echo Hello, world!
+          
+    a:
+      runs-on: ubuntu-latest
+      needs: hello-world-job
+      
+    b:
+      runs-on: ubuntu-latest
+      needs: hello-world-job
