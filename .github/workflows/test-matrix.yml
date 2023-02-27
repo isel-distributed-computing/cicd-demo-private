@@ -4,26 +4,21 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
+  test_matrix:
     runs-on: ubuntu-latest
-    
     strategy:
       matrix:
         jdk: [17]
         os: [ubuntu-18.04, ubuntu-20.04]
-
     name: Test on JDK ${{ matrix.jdk }} and Ubuntu ${{ matrix.os }}
-
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-      
     - name: Set up JDK ${{ matrix.jdk }}
       uses: actions/setup-java@v2
       with:
         java-version: ${{ matrix.jdk }}
         distribution: 'adopt'
-              
     - name: Build with Maven
       run: |
         cd phase-2/todolist
@@ -32,3 +27,10 @@ jobs:
       run: |
         cd phase-2/todolist
         mvn -B test
+        
+simple-command:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Execute simple command
+        run: echo "Hello, world!"
+    
