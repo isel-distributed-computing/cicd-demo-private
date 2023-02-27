@@ -1,4 +1,4 @@
-name: Test Spring Boot App
+name: Build ToDo List With Test Matrix
 
 on:
   workflow_dispatch:
@@ -13,12 +13,13 @@ jobs:
     name: Test on JDK ${{ matrix.jdk }} and Ubuntu ${{ matrix.os }}
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Set up JDK ${{ matrix.jdk }}
-      uses: actions/setup-java@v2
+      uses: actions/setup-java@v3
       with:
         java-version: ${{ matrix.jdk }}
         distribution: 'adopt'
+        cache: maven
     - name: Build with Maven
       run: |
         cd phase-2/todolist
