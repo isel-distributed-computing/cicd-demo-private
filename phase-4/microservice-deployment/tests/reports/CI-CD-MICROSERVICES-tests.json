@@ -5,11 +5,11 @@
     },
     "item": [
       {
-        "id": "d3e04a83-5c71-4557-87f5-cd8c153fd6d4",
+        "id": "3592e9af-9d11-4292-8754-f6c82b716654",
         "name": "Sessão2",
         "item": [
           {
-            "id": "4c17b594-489d-45a0-b7d9-1ae2b3191ae4",
+            "id": "d2dc1409-c43d-40cc-aee3-20be91f55c9f",
             "name": "01 - Criar utilizador",
             "request": {
               "url": {
@@ -56,14 +56,14 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "04af4524-dcc1-4b93-95f3-b4daa9e8501f",
+                  "id": "316a062e-19ac-479a-90d7-535e7c5f1290",
                   "type": "text/javascript",
                   "exec": [
                     "pm.test(\"Status code is 200\", function () {",
                     "   pm.response.to.have.status(200);",
                     "});"
                   ],
-                  "_lastExecutionId": "c6091bcd-2b0f-455d-8e7c-dd3c8ec82f07"
+                  "_lastExecutionId": "d54ca6e4-63cb-47eb-a8b2-f1b14d7015c7"
                 }
               }
             ],
@@ -72,7 +72,7 @@
             }
           },
           {
-            "id": "da9216b9-156f-471c-9f27-a295b3c837c8",
+            "id": "e5967a85-ad97-4aa0-9b75-db697bf28033",
             "name": "02 - Login",
             "request": {
               "url": {
@@ -104,7 +104,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "960a73b4-8b03-4cfa-bef9-7d198f4b1470",
+                  "id": "6211fc22-bb31-4fe5-ac3b-b0191afd8140",
                   "type": "text/javascript",
                   "exec": [
                     "pm.test(\"Status code is 200\", function () {",
@@ -114,13 +114,13 @@
                     "pm.collectionVariables.set(\"token\", responseBody);",
                     ""
                   ],
-                  "_lastExecutionId": "634f85c0-5690-463c-9993-406b910396b8"
+                  "_lastExecutionId": "221b9837-4fd7-4e81-910f-2358d58821fb"
                 }
               }
             ]
           },
           {
-            "id": "03684726-1e89-4346-922d-e51b14b598bf",
+            "id": "b5a92ae5-7d78-41da-b0f5-82791dd4fab3",
             "name": "03 - TodoList",
             "request": {
               "url": {
@@ -157,20 +157,20 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "da9861df-f2bd-4d81-937d-95a2098d787b",
+                  "id": "fb23d047-23d2-49b3-badd-0b23b720cccc",
                   "type": "text/javascript",
                   "exec": [
                     "pm.test(\"Status code is 200\", function () {",
                     "    pm.response.to.have.status(200);",
                     "});"
                   ],
-                  "_lastExecutionId": "ad814415-edf7-48ea-ade6-995449c107a0"
+                  "_lastExecutionId": "9a9e61fb-2ce0-4c6f-8761-ecac066af888"
                 }
               }
             ]
           },
           {
-            "id": "553ba126-6c36-4e39-915e-e7cadff95c4b",
+            "id": "03a1a1e3-4f11-475e-9805-6776b5ce3a3e",
             "name": "04 - TodoList/joe",
             "request": {
               "url": {
@@ -199,20 +199,20 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "438694a0-0dbb-412e-a96e-5be64ff223f5",
+                  "id": "95f101c1-cd48-43e1-9885-d5061a54cbf3",
                   "type": "text/javascript",
                   "exec": [
                     "pm.test(\"Status code is 200\", function () {",
                     "    pm.response.to.have.status(200);",
                     "});"
                   ],
-                  "_lastExecutionId": "f7115ead-d47f-4547-85f3-501f7f17e0b8"
+                  "_lastExecutionId": "eff4154f-47ef-4d2f-a9a7-32a4deb9e395"
                 }
               }
             ]
           },
           {
-            "id": "41c113fc-eccb-4080-856d-a37b986019cf",
+            "id": "c12ab691-9384-4bd2-812b-1d81efe50641",
             "name": "05 - RABBITMQ - Check existing message",
             "request": {
               "url": {
@@ -250,7 +250,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "2e636571-f413-4a5b-9fb5-ac7e6eaf070a",
+                  "id": "9694490c-cd4f-45a7-9237-db76fe3d1ebe",
                   "type": "text/javascript",
                   "exec": [
                     "let jsonData = pm.response.json();",
@@ -265,18 +265,18 @@
                     "    pm.expect(typeof res !== \"undefined\").to.be.true;",
                     "});"
                   ],
-                  "_lastExecutionId": "e28f82c3-6544-4631-9975-6cf44f558591"
+                  "_lastExecutionId": "11b9a667-1c5a-45e0-9abf-939e032f726d"
                 }
               },
               {
                 "listen": "prerequest",
                 "script": {
-                  "id": "17fb6801-1888-4c2a-ae20-d9d6a18fd867",
+                  "id": "6197fc1d-f059-4ba1-838a-f550537c54c4",
                   "type": "text/javascript",
                   "exec": [
                     "setTimeout(function(){}, 5000);"
                   ],
-                  "_lastExecutionId": "4b374149-2f50-44ae-891c-200b04c5bea0"
+                  "_lastExecutionId": "e5ae5ffe-1512-47c1-a5a0-40df68ac6c0f"
                 }
               }
             ]
@@ -300,11 +300,11 @@
     }
   },
   "environment": {
-    "id": "22eb161a-5d57-4999-a0fd-0cbacacbd22b",
+    "id": "39bc26b2-bc89-47b6-b688-2af121288cd9",
     "values": []
   },
   "globals": {
-    "id": "072300e1-6852-4504-9f7c-1798fbc52ded",
+    "id": "d037bb24-3707-4cfe-82af-33eb4de9c8f4",
     "values": []
   },
   "run": {
@@ -356,10 +356,10 @@
       }
     },
     "timings": {
-      "responseAverage": 219.6,
-      "responseMin": 11,
-      "responseMax": 451,
-      "responseSd": 165.86452303009224,
+      "responseAverage": 229,
+      "responseMin": 12,
+      "responseMax": 467,
+      "responseSd": 169.33635167913593,
       "dnsAverage": 0,
       "dnsMin": 0,
       "dnsMax": 0,
@@ -368,8 +368,8 @@
       "firstByteMin": 0,
       "firstByteMax": 0,
       "firstByteSd": 0,
-      "started": 1677599412678,
-      "completed": 1677599418934
+      "started": 1677605099987,
+      "completed": 1677605106317
     },
     "executions": [
       {
@@ -382,11 +382,11 @@
           "eof": false,
           "bof": true,
           "cr": false,
-          "ref": "f321a5b2-2694-4551-a4b8-54c5065831dd",
-          "httpRequestId": "77ddd538-74d3-44e5-9b3f-99536f94f02c"
+          "ref": "59242f39-96e1-4898-a9a0-65f5389f4a20",
+          "httpRequestId": "7ba96791-ff73-4242-8e7d-3e3ad84fee0a"
         },
         "item": {
-          "id": "4c17b594-489d-45a0-b7d9-1ae2b3191ae4",
+          "id": "d2dc1409-c43d-40cc-aee3-20be91f55c9f",
           "name": "01 - Criar utilizador",
           "request": {
             "url": {
@@ -433,14 +433,14 @@
             {
               "listen": "test",
               "script": {
-                "id": "04af4524-dcc1-4b93-95f3-b4daa9e8501f",
+                "id": "316a062e-19ac-479a-90d7-535e7c5f1290",
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"Status code is 200\", function () {",
                   "   pm.response.to.have.status(200);",
                   "});"
                 ],
-                "_lastExecutionId": "c6091bcd-2b0f-455d-8e7c-dd3c8ec82f07"
+                "_lastExecutionId": "d54ca6e4-63cb-47eb-a8b2-f1b14d7015c7"
               }
             }
           ],
@@ -485,7 +485,7 @@
             },
             {
               "key": "Postman-Token",
-              "value": "dbe7287e-4231-458a-81b5-bee0e1450f64",
+              "value": "c7674e55-2606-4e64-a204-7249587c2571",
               "system": true
             },
             {
@@ -525,7 +525,7 @@
           }
         },
         "response": {
-          "id": "db555c39-e9bb-4b14-b6ba-b4790a4cbdd4",
+          "id": "c07c66ea-b36c-4698-9fdd-38d08bae9dc7",
           "status": "OK",
           "code": 200,
           "header": [
@@ -539,7 +539,7 @@
             },
             {
               "key": "Date",
-              "value": "Tue, 28 Feb 2023 15:50:13 GMT"
+              "value": "Tue, 28 Feb 2023 17:25:00 GMT"
             },
             {
               "key": "Keep-Alive",
@@ -584,10 +584,10 @@
             ]
           },
           "cookie": [],
-          "responseTime": 451,
+          "responseTime": 467,
           "responseSize": 28
         },
-        "id": "4c17b594-489d-45a0-b7d9-1ae2b3191ae4",
+        "id": "d2dc1409-c43d-40cc-aee3-20be91f55c9f",
         "assertions": [
           {
             "assertion": "Status code is 200",
@@ -597,15 +597,15 @@
       },
       {
         "cursor": {
-          "ref": "89eb22f4-fe69-4434-998c-973c7bd24d03",
+          "ref": "0e49b36c-a1af-4a34-b75c-478fda01aeaa",
           "length": 5,
           "cycles": 1,
           "position": 1,
           "iteration": 0,
-          "httpRequestId": "808c9042-213f-452b-9467-72e3385eb7b7"
+          "httpRequestId": "d7089e91-c761-410a-81d2-c0d6c98dd3de"
         },
         "item": {
-          "id": "da9216b9-156f-471c-9f27-a295b3c837c8",
+          "id": "e5967a85-ad97-4aa0-9b75-db697bf28033",
           "name": "02 - Login",
           "request": {
             "url": {
@@ -637,7 +637,7 @@
             {
               "listen": "test",
               "script": {
-                "id": "960a73b4-8b03-4cfa-bef9-7d198f4b1470",
+                "id": "6211fc22-bb31-4fe5-ac3b-b0191afd8140",
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"Status code is 200\", function () {",
@@ -647,7 +647,7 @@
                   "pm.collectionVariables.set(\"token\", responseBody);",
                   ""
                 ],
-                "_lastExecutionId": "634f85c0-5690-463c-9993-406b910396b8"
+                "_lastExecutionId": "221b9837-4fd7-4e81-910f-2358d58821fb"
               }
             }
           ]
@@ -689,7 +689,7 @@
             },
             {
               "key": "Postman-Token",
-              "value": "354a0d09-401d-46a4-9ef9-938fff6d2d33",
+              "value": "a26f2a25-d075-45ab-a5bf-c963696c3ffa",
               "system": true
             },
             {
@@ -725,7 +725,7 @@
           }
         },
         "response": {
-          "id": "13087c9c-c3dc-4a08-bbf3-4302424bdd41",
+          "id": "a1270f6c-5f34-42a8-99be-f4604034d657",
           "status": "OK",
           "code": 200,
           "header": [
@@ -739,7 +739,7 @@
             },
             {
               "key": "Date",
-              "value": "Tue, 28 Feb 2023 15:50:13 GMT"
+              "value": "Tue, 28 Feb 2023 17:25:00 GMT"
             },
             {
               "key": "Keep-Alive",
@@ -861,10 +861,10 @@
             ]
           },
           "cookie": [],
-          "responseTime": 101,
+          "responseTime": 124,
           "responseSize": 105
         },
-        "id": "da9216b9-156f-471c-9f27-a295b3c837c8",
+        "id": "e5967a85-ad97-4aa0-9b75-db697bf28033",
         "assertions": [
           {
             "assertion": "Status code is 200",
@@ -874,15 +874,15 @@
       },
       {
         "cursor": {
-          "ref": "7e9ccb0f-c38e-4161-803b-d391673b9c30",
+          "ref": "0b094626-3da7-4d0e-9638-6d2ee40826dd",
           "length": 5,
           "cycles": 1,
           "position": 2,
           "iteration": 0,
-          "httpRequestId": "cde74641-7eed-4a17-b1a4-4bd92b36c93d"
+          "httpRequestId": "bd66b840-4e25-4258-87b8-6138ac413acb"
         },
         "item": {
-          "id": "03684726-1e89-4346-922d-e51b14b598bf",
+          "id": "b5a92ae5-7d78-41da-b0f5-82791dd4fab3",
           "name": "03 - TodoList",
           "request": {
             "url": {
@@ -919,14 +919,14 @@
             {
               "listen": "test",
               "script": {
-                "id": "da9861df-f2bd-4d81-937d-95a2098d787b",
+                "id": "fb23d047-23d2-49b3-badd-0b23b720cccc",
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"Status code is 200\", function () {",
                   "    pm.response.to.have.status(200);",
                   "});"
                 ],
-                "_lastExecutionId": "ad814415-edf7-48ea-ade6-995449c107a0"
+                "_lastExecutionId": "9a9e61fb-2ce0-4c6f-8761-ecac066af888"
               }
             }
           ]
@@ -971,7 +971,7 @@
             },
             {
               "key": "Postman-Token",
-              "value": "9e5b9fd4-de88-4cde-a9cf-6a96eb86feb8",
+              "value": "1f793eeb-c648-47f4-a817-095a5024ccb1",
               "system": true
             },
             {
@@ -1007,7 +1007,7 @@
           }
         },
         "response": {
-          "id": "ad716a8e-7772-4635-9080-1fc8920654d7",
+          "id": "e9bb9918-05bd-45fb-a3a9-2ec1f300ccba",
           "status": "OK",
           "code": 200,
           "header": [
@@ -1021,7 +1021,7 @@
             },
             {
               "key": "Date",
-              "value": "Tue, 28 Feb 2023 15:50:13 GMT"
+              "value": "Tue, 28 Feb 2023 17:25:01 GMT"
             },
             {
               "key": "Keep-Alive",
@@ -1078,10 +1078,10 @@
             ]
           },
           "cookie": [],
-          "responseTime": 372,
+          "responseTime": 383,
           "responseSize": 40
         },
-        "id": "03684726-1e89-4346-922d-e51b14b598bf",
+        "id": "b5a92ae5-7d78-41da-b0f5-82791dd4fab3",
         "assertions": [
           {
             "assertion": "Status code is 200",
@@ -1091,15 +1091,15 @@
       },
       {
         "cursor": {
-          "ref": "5d0fb0e3-aff5-4993-8e6e-03271f4ad248",
+          "ref": "3e811fa9-3cad-4f00-a319-02a2b3f9abc2",
           "length": 5,
           "cycles": 1,
           "position": 3,
           "iteration": 0,
-          "httpRequestId": "a0416aed-4e51-4578-bbd3-2f713cc09c86"
+          "httpRequestId": "3230b5b3-28f5-4936-aa63-be5d4cf05c4d"
         },
         "item": {
-          "id": "553ba126-6c36-4e39-915e-e7cadff95c4b",
+          "id": "03a1a1e3-4f11-475e-9805-6776b5ce3a3e",
           "name": "04 - TodoList/joe",
           "request": {
             "url": {
@@ -1128,14 +1128,14 @@
             {
               "listen": "test",
               "script": {
-                "id": "438694a0-0dbb-412e-a96e-5be64ff223f5",
+                "id": "95f101c1-cd48-43e1-9885-d5061a54cbf3",
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"Status code is 200\", function () {",
                   "    pm.response.to.have.status(200);",
                   "});"
                 ],
-                "_lastExecutionId": "f7115ead-d47f-4547-85f3-501f7f17e0b8"
+                "_lastExecutionId": "eff4154f-47ef-4d2f-a9a7-32a4deb9e395"
               }
             }
           ]
@@ -1176,7 +1176,7 @@
             },
             {
               "key": "Postman-Token",
-              "value": "8c6a8cca-e3ff-46ab-a382-d93d04e9b3e3",
+              "value": "f8201965-52db-4719-b1f2-f6df7852ea41",
               "system": true
             },
             {
@@ -1198,7 +1198,7 @@
           "method": "GET"
         },
         "response": {
-          "id": "1df13a0d-1e8d-4695-b29a-2088ed0bfd4e",
+          "id": "b4a0648f-5df9-4c12-980e-db8187e06924",
           "status": "OK",
           "code": 200,
           "header": [
@@ -1212,7 +1212,7 @@
             },
             {
               "key": "Date",
-              "value": "Tue, 28 Feb 2023 15:50:13 GMT"
+              "value": "Tue, 28 Feb 2023 17:25:01 GMT"
             },
             {
               "key": "Keep-Alive",
@@ -1271,10 +1271,10 @@
             ]
           },
           "cookie": [],
-          "responseTime": 163,
+          "responseTime": 159,
           "responseSize": 42
         },
-        "id": "553ba126-6c36-4e39-915e-e7cadff95c4b",
+        "id": "03a1a1e3-4f11-475e-9805-6776b5ce3a3e",
         "assertions": [
           {
             "assertion": "Status code is 200",
@@ -1284,15 +1284,15 @@
       },
       {
         "cursor": {
-          "ref": "e28fc6b5-c0b2-4475-9dfb-8498c36dc19d",
+          "ref": "a8c45f92-5f31-4eea-88ee-4f2b869e44c1",
           "length": 5,
           "cycles": 1,
           "position": 4,
           "iteration": 0,
-          "httpRequestId": "a8f2323e-beee-4ccb-b07d-f44339a01639"
+          "httpRequestId": "5d8a5182-7d0e-4dc0-bdd2-a1c588406656"
         },
         "item": {
-          "id": "41c113fc-eccb-4080-856d-a37b986019cf",
+          "id": "c12ab691-9384-4bd2-812b-1d81efe50641",
           "name": "05 - RABBITMQ - Check existing message",
           "request": {
             "url": {
@@ -1330,7 +1330,7 @@
             {
               "listen": "test",
               "script": {
-                "id": "2e636571-f413-4a5b-9fb5-ac7e6eaf070a",
+                "id": "9694490c-cd4f-45a7-9237-db76fe3d1ebe",
                 "type": "text/javascript",
                 "exec": [
                   "let jsonData = pm.response.json();",
@@ -1345,18 +1345,18 @@
                   "    pm.expect(typeof res !== \"undefined\").to.be.true;",
                   "});"
                 ],
-                "_lastExecutionId": "e28f82c3-6544-4631-9975-6cf44f558591"
+                "_lastExecutionId": "11b9a667-1c5a-45e0-9abf-939e032f726d"
               }
             },
             {
               "listen": "prerequest",
               "script": {
-                "id": "17fb6801-1888-4c2a-ae20-d9d6a18fd867",
+                "id": "6197fc1d-f059-4ba1-838a-f550537c54c4",
                 "type": "text/javascript",
                 "exec": [
                   "setTimeout(function(){}, 5000);"
                 ],
-                "_lastExecutionId": "4b374149-2f50-44ae-891c-200b04c5bea0"
+                "_lastExecutionId": "e5ae5ffe-1512-47c1-a5a0-40df68ac6c0f"
               }
             }
           ]
@@ -1398,7 +1398,7 @@
             },
             {
               "key": "Postman-Token",
-              "value": "9258d558-5702-458c-afd8-efc18560f334",
+              "value": "ea2d22b9-602e-4061-85a5-8721d3927385",
               "system": true
             },
             {
@@ -1435,7 +1435,7 @@
           }
         },
         "response": {
-          "id": "a025e2d0-17f4-4301-8f74-e918a5fdafb2",
+          "id": "2f1cf02e-377a-48ca-a32e-92d5ae4ebe76",
           "status": "OK",
           "code": 200,
           "header": [
@@ -1449,7 +1449,7 @@
             },
             {
               "key": "content-length",
-              "value": "824"
+              "value": "826"
             },
             {
               "key": "content-security-policy",
@@ -1461,7 +1461,7 @@
             },
             {
               "key": "date",
-              "value": "Tue, 28 Feb 2023 15:50:18 GMT"
+              "value": "Tue, 28 Feb 2023 17:25:06 GMT"
             },
             {
               "key": "server",
@@ -2138,7 +2138,7 @@
               115,
               34,
               58,
-              55,
+              56,
               125,
               44,
               34,
@@ -2197,17 +2197,17 @@
               56,
               84,
               49,
+              55,
+              58,
+              50,
               53,
               58,
-              53,
               48,
-              58,
-              49,
-              52,
+              50,
               46,
-              56,
-              52,
-              48,
+              50,
+              51,
+              55,
               43,
               48,
               48,
@@ -2226,9 +2226,9 @@
               34,
               58,
               55,
-              52,
+              51,
+              57,
               50,
-              52,
               44,
               34,
               109,
@@ -2790,18 +2790,18 @@
               105,
               116,
               64,
-              56,
               48,
-              97,
+              54,
+              102,
+              100,
+              50,
+              54,
+              50,
+              49,
               57,
-              48,
               99,
-              55,
-              51,
-              55,
-              55,
-              54,
-              54,
+              53,
+              100,
               34,
               44,
               34,
@@ -2882,8 +2882,8 @@
               58,
               55,
               55,
-              52,
-              55,
+              49,
+              50,
               44,
               34,
               114,
@@ -3667,7 +3667,8 @@
               115,
               34,
               58,
-              57,
+              49,
+              48,
               125,
               44,
               34,
@@ -3726,17 +3727,17 @@
               56,
               84,
               49,
-              53,
+              55,
               58,
-              53,
-              48,
-              58,
-              49,
-              53,
-              46,
               50,
-              51,
-              52,
+              53,
+              58,
+              48,
+              50,
+              46,
+              57,
+              53,
+              49,
               43,
               48,
               48,
@@ -3755,9 +3756,9 @@
               34,
               58,
               55,
-              51,
               50,
-              56,
+              57,
+              54,
               44,
               34,
               109,
@@ -4676,18 +4677,18 @@
               105,
               116,
               64,
-              56,
               48,
-              97,
+              54,
+              102,
+              100,
+              50,
+              54,
+              50,
+              49,
               57,
-              48,
               99,
-              55,
-              51,
-              55,
-              55,
-              54,
-              54,
+              53,
+              100,
               34,
               44,
               34,
@@ -4767,9 +4768,9 @@
               34,
               58,
               56,
-              56,
+              57,
               51,
-              50,
+              52,
               44,
               34,
               114,
@@ -4801,10 +4802,10 @@
               34,
               58,
               50,
-              55,
-              48,
+              57,
+              50,
               46,
-              48,
+              50,
               125,
               44,
               34,
@@ -4892,10 +4893,10 @@
             ]
           },
           "cookie": [],
-          "responseTime": 11,
-          "responseSize": 3414
+          "responseTime": 12,
+          "responseSize": 3415
         },
-        "id": "41c113fc-eccb-4080-856d-a37b986019cf",
+        "id": "c12ab691-9384-4bd2-812b-1d81efe50641",
         "assertions": [
           {
             "assertion": "Queues status",
@@ -4909,7 +4910,7 @@
       }
     ],
     "transfers": {
-      "responseTotal": 1039
+      "responseTotal": 1041
     },
     "failures": [],
     "error": null

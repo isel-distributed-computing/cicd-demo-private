@@ -22,4 +22,4 @@ jobs:
       run: |
         cd phase-3
         cd authusers
-        mvn -B package -Dmaven.test.skip=true --file pom.xml
+        mvn -B package -Dmaven.test.skip=true
