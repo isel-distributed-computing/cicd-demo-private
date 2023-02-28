@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="CI-CD-MICROSERVICES" tests="5" time="1.098">
+  <testsuite name="Sessão2 / 01 - Criar utilizador" id="4c17b594-489d-45a0-b7d9-1ae2b3191ae4" timestamp="2023-02-28T15:50:12.678Z" tests="1" failures="0" errors="0" time="0.451">
+    <testcase name="Status code is 200" time="0.451" classname="CiCdMicroservices"/>
+  </testsuite>
+  <testsuite name="Sessão2 / 02 - Login" id="da9216b9-156f-471c-9f27-a295b3c837c8" timestamp="2023-02-28T15:50:12.678Z" tests="1" failures="0" errors="0" time="0.101">
+    <testcase name="Status code is 200" time="0.101" classname="CiCdMicroservices"/>
+  </testsuite>
+  <testsuite name="Sessão2 / 03 - TodoList" id="03684726-1e89-4346-922d-e51b14b598bf" timestamp="2023-02-28T15:50:12.678Z" tests="1" failures="0" errors="0" time="0.372">
+    <testcase name="Status code is 200" time="0.372" classname="CiCdMicroservices"/>
+  </testsuite>
+  <testsuite name="Sessão2 / 04 - TodoList/joe" id="553ba126-6c36-4e39-915e-e7cadff95c4b" timestamp="2023-02-28T15:50:12.678Z" tests="1" failures="0" errors="0" time="0.163">
+    <testcase name="Status code is 200" time="0.163" classname="CiCdMicroservices"/>
+  </testsuite>
+  <testsuite name="Sessão2 / 05 - RABBITMQ - Check existing message" id="41c113fc-eccb-4080-856d-a37b986019cf" timestamp="2023-02-28T15:50:12.678Z" tests="2" failures="0" errors="0" time="0.011">
+    <testcase name="Queues status" time="0.011" classname="CiCdMicroservices"/>
+    <testcase name="The notification_response queue contains exactly 1 message" time="0.011" classname="CiCdMicroservices"/>
+  </testsuite>
+</testsuites>
