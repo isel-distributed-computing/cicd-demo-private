@@ -1,15 +1,19 @@
+name: matrix for slides
+on:
+  workflow_dispatch
 jobs: 
     example_matrix: 
-        strategy: 
-            matrix: 
-                version: [10, 12, 14]
-                os: [ubuntu-latest, windows-latest]
+      strategy: 
+        matrix: 
+          version: [10, 12, 14]
+          os: [ubuntu-latest, windows-latest]
+      runs-on: ${{ matrix.os }}
+      steps:
+      - name: running for ${{ matrix.jdk }} and ${{ matrix.version }}
+        run: echo hello world
 
-        steps:
-        - name: running for ${{ matrix.jdk }} and ${{ matrix.version }}
-          run: echo hello world
-
-      other_job:
-        steps:
-        - name: other
-          run: echo run other job
+    other_job:
+      runs-on: ubuntu-latest
+      steps:
+      - name: other
+        run: echo run other job
