@@ -5,7 +5,7 @@ on:
     branches:
       - main
 jobs:
-  build:
+  build-auth-service:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,7 +22,8 @@ jobs:
         cd phase-3
         cd authusers
         mvn -B package -Dmaven.test.skip=true
-  build:
+        
+  build-todo-service:
     runs-on: ubuntu-latest
 
     steps:
@@ -39,7 +40,7 @@ jobs:
         cd phase-3
         cd todolist
         mvn -B package -Dmaven.test.skip=true
-  build:
+  build-notification-service:
     runs-on: ubuntu-latest
 
     steps:
