@@ -106,6 +106,16 @@ jobs:
           cd phase-3
           cd authusers
           mvn -B package -Dmaven.test.skip=true
+      - name: Build Todo Service with Maven
+        run: |
+          cd phase-3
+          cd todolist
+          mvn -B package -Dmaven.test.skip=true
+      - name: Build Notification Service with Maven
+        run: |
+          cd phase-3
+          cd notifications
+          mvn -B package -Dmaven.test.skip=true
       - name: Log in to the Container registry
         uses: docker/login-action@v2
         with:
@@ -113,18 +123,45 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Extract metadata (tags, labels) for Docker
-        id: meta
+        id: meta-auth
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/isel-distributed-computing/cicd-demo-private/authusers
-      - name: Build and push Docker image
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}/authusers
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta-todo
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}/todolist
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta-notifications
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}/notifications    
+          
+      - name: Build and push auth Docker image
         uses: docker/build-push-action@v4
         with:
           context: phase-3/authusers/.
           file: phase-3/authusers/Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ steps.meta-auth.outputs.tags }}
+          labels: ${{ steps.meta-auth.outputs.labels }}
+      - name: Build and push todo Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: phase-3/todolist/.
+          file: phase-3/todolist/Dockerfile
+          push: true
+          tags: ${{ steps.meta-todo.outputs.tags }}
+          labels: ${{ steps.meta-todo.outputs.labels }}
+      - name: Build and push notifications Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: phase-3/notifications/.
+          file: phase-3/notifications/Dockerfile
+          push: true
+          tags: ${{ steps.meta-notifications.outputs.tags }}
+          labels: ${{ steps.meta-notifications.outputs.labels }}
     
 
   
