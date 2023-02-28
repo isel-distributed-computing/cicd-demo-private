@@ -52,7 +52,7 @@ jobs:
       run: |
         cd phase-3
         cd todolist
-        mvn -B package -Dmaven.test.skip=true
+        mvn clean test
     - name: Log in to the Container registry
       uses: docker/login-action@v2
       with:
@@ -89,7 +89,7 @@ jobs:
       run: |
         cd phase-3
         cd notifications
-        mvn -B package -Dmaven.test.skip=true
+        mvn clean test
   
   publish-docker-images:
     runs-on: ubuntu-latest
