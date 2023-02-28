@@ -6,8 +6,12 @@ on:
       - main
 jobs:
   build-auth-service:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        jdk: [17]
+        os: [ubuntu-18.04, ubuntu-20.04]
 
+    runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
     
