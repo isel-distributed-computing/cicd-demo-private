@@ -62,7 +62,7 @@ jobs:
       id: meta
       uses: docker/metadata-action@v4
       with:
-        images: ${{ env.REGISTRY }}/todolist
+        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
     - name: Build and push Docker image
       uses: docker/build-push-action@v4
       with:
@@ -116,7 +116,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/authusers
+          images: ${{ env.REGISTRY }}/isel-distributed-computing/cicd-demo-private/authusers
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
