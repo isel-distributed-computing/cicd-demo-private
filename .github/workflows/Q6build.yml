@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - main
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  
 jobs:
   build-auth-service:
     strategy:
@@ -48,6 +52,13 @@ jobs:
         cd phase-3
         cd todolist
         mvn -B package -Dmaven.test.skip=true
+    - name: Log in to the Container registry
+      uses: docker/login-action@v2
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
   build-notification-service:
     runs-on: ubuntu-latest
 
@@ -65,3 +76,5 @@ jobs:
         cd phase-3
         cd notifications
         mvn -B package -Dmaven.test.skip=true
+
+  
