@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="CI-CD-MICROSERVICES" tests="5" time="1.145">
-  <testsuite name="Sessão2 / 01 - Criar utilizador" id="d2dc1409-c43d-40cc-aee3-20be91f55c9f" timestamp="2023-02-28T17:24:59.987Z" tests="1" failures="0" errors="0" time="0.467">
-    <testcase name="Status code is 200" time="0.467" classname="CiCdMicroservices"/>
+<testsuites name="CI-CD-MICROSERVICES" tests="5" time="0.871">
+  <testsuite name="Sessão2 / 01 - Criar utilizador" id="198f0f69-9d4b-4a78-9159-45ba38154437" timestamp="2023-03-02T13:45:07.113Z" tests="1" failures="0" errors="0" time="0.364">
+    <testcase name="Status code is 200" time="0.364" classname="CiCdMicroservices"/>
   </testsuite>
-  <testsuite name="Sessão2 / 02 - Login" id="e5967a85-ad97-4aa0-9b75-db697bf28033" timestamp="2023-02-28T17:24:59.987Z" tests="1" failures="0" errors="0" time="0.124">
-    <testcase name="Status code is 200" time="0.124" classname="CiCdMicroservices"/>
+  <testsuite name="Sessão2 / 02 - Login" id="089d8573-caa8-4f00-9ff1-28c20f5ce3c2" timestamp="2023-03-02T13:45:07.113Z" tests="1" failures="0" errors="0" time="0.091">
+    <testcase name="Status code is 200" time="0.091" classname="CiCdMicroservices"/>
   </testsuite>
-  <testsuite name="Sessão2 / 03 - TodoList" id="b5a92ae5-7d78-41da-b0f5-82791dd4fab3" timestamp="2023-02-28T17:24:59.987Z" tests="1" failures="0" errors="0" time="0.383">
-    <testcase name="Status code is 200" time="0.383" classname="CiCdMicroservices"/>
+  <testsuite name="Sessão2 / 03 - TodoList" id="2e057355-fb0a-4045-8ed1-6170ad36182b" timestamp="2023-03-02T13:45:07.113Z" tests="1" failures="0" errors="0" time="0.292">
+    <testcase name="Status code is 200" time="0.292" classname="CiCdMicroservices"/>
   </testsuite>
-  <testsuite name="Sessão2 / 04 - TodoList/joe" id="03a1a1e3-4f11-475e-9805-6776b5ce3a3e" timestamp="2023-02-28T17:24:59.987Z" tests="1" failures="0" errors="0" time="0.159">
-    <testcase name="Status code is 200" time="0.159" classname="CiCdMicroservices"/>
+  <testsuite name="Sessão2 / 04 - TodoList/joe" id="6698cd45-0e22-4f07-aa1f-74663fb63afc" timestamp="2023-03-02T13:45:07.113Z" tests="1" failures="0" errors="0" time="0.111">
+    <testcase name="Status code is 200" time="0.111" classname="CiCdMicroservices"/>
   </testsuite>
-  <testsuite name="Sessão2 / 05 - RABBITMQ - Check existing message" id="c12ab691-9384-4bd2-812b-1d81efe50641" timestamp="2023-02-28T17:24:59.987Z" tests="2" failures="0" errors="0" time="0.012">
-    <testcase name="Queues status" time="0.012" classname="CiCdMicroservices"/>
-    <testcase name="The notification_response queue contains exactly 1 message" time="0.012" classname="CiCdMicroservices"/>
+  <testsuite name="Sessão2 / 05 - RABBITMQ - Check existing message" id="b700f7c4-91e4-42fe-a537-60bf989e4493" timestamp="2023-03-02T13:45:07.113Z" tests="2" failures="0" errors="0" time="0.013">
+    <testcase name="Queues status" time="0.013" classname="CiCdMicroservices"/>
+    <testcase name="The notification_response queue contains exactly 1 message" time="0.013" classname="CiCdMicroservices"/>
   </testsuite>
 </testsuites>
