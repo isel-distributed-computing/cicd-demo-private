@@ -4,10 +4,8 @@ on:
   workflow_dispatch
 
 jobs:
-  build:
-
+  build-jar:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
     
@@ -28,5 +26,14 @@ jobs:
       with:
         name: authuser-jar
         path: phase-2/authusers/target/authuser-phase2-1.0.0.jar
-        
+        if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
+      
+  publish-docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: authuser-jar
+      - name: Display structure of downloaded files
+        run: ls -R
     
