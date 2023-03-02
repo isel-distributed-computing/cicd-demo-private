@@ -27,6 +27,6 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
         name: authuser-jar
-        path: phase-2/authuser/target/authuser-phase2-1.0.0.jar
+        path: phase-2/authusers/target/authuser-phase2-1.0.0.jar
         
     
