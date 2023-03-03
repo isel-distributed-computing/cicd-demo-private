@@ -1,9 +1,6 @@
-name: Java CI with Maven 
-on: 
-  workflow_dispatch:
-  # push:
-  #  branches:
-  #    - main
+name: Java CI with Maven (sefl-hosted))
+on: workflow_dispatch
+ 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
@@ -74,7 +71,7 @@ jobs:
         labels: ${{ steps.meta.outputs.labels }}
 
   build-notification-service:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted,macOS,X64]
 
     steps:
     - uses: actions/checkout@v3
@@ -92,7 +89,7 @@ jobs:
         mvn clean test
   
   publish-docker-images:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted,macOS,X64]
     needs: build-auth-service
     steps:
       - name: Log in to the Container registry
