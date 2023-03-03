@@ -21,7 +21,7 @@ services:
     ports: #Only expose the necessary ports. THis sone is needed to access the administration console
     - "127.0.0.1:15672:15672"
   notification-cicd: #notifications service
-    image: solvit-cicd/notifications
+    image: harbor-registry.dyn.fil.e.ipl.pt:80/solvit-cicd/notifications:latest
     restart: always
     container_name: notification-cicd
     depends_on: #Express dependency between services. notification-cicd will only starts when these are "ready" 
@@ -37,7 +37,7 @@ services:
       RMQ_PASS: guest
       RMQ_PORT: 5672
   authuser-cicd: #user autentication service
-    image: solvit-cicd/authuser
+    image: harbor-registry.dyn.fil.e.ipl.pt:80/solvit-cicd/authuser:latest
     restart: always
     container_name: authuser-cicd
     ports:
@@ -56,7 +56,7 @@ services:
       timeout: 5s
       retries: 5
   todolist-cicd: #todo service
-    image: solvit-cicd/todolist
+    image: harbor-registry.dyn.fil.e.ipl.pt:80/solvit-cicd/todolist:latest
     depends_on:
       postgres-cicd:
         condition: service_healthy
