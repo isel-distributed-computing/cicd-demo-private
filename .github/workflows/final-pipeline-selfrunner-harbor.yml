@@ -8,7 +8,11 @@ env:
   IMAGE_NAME: solvit-cicd
   
 jobs:
+  scan-vulnerabilities:
+    runs-on: ubuntu-latest
+
   build-all-jars:
+    needs: scan-vulnerabilities
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -53,10 +57,10 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
         name: notifications-jar
-        path: phase-2/notifications/todolist/todolist-phase2-notifications-1.0.0.jar
+        path: phase-2/notifications/todolist-phase2-notifications-1.0.0.jar
         if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
       
-  publish-docker:
+  publish-docker-auth:
     needs: build-all-jars
     runs-on: self-hosted
     steps:
@@ -93,4 +97,14 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-    
+          
+  publish-docker-todolist:
+      needs: build-all-jars
+      runs-on: self-hosted
+      # TODO  
+  
+  publish-docker-notifications:
+      needs: build-all-jars
+      runs-on: self-hosted
+      # TODO
+
