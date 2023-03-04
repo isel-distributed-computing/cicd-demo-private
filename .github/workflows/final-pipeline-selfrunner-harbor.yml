@@ -38,7 +38,7 @@ jobs:
     
     - name: build phase-3
       run: |
-        cd phase-3/authuser
+        cd phase-3/authusers
         mvn -B package -Dmaven.test.skip=true
 
     - name: Perform CodeQL Analysis
