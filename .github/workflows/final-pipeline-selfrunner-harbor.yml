@@ -167,5 +167,14 @@ jobs:
           file: phase-3/notifications/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }} 
+          labels: ${{ steps.meta.outputs.labels }}
+          
+  docker-compose-all:
+    needs: [publish-docker-todolist, publish-docker-auth, publish-docker-notifications]
+    runs-on: self-hosted
+    steps:
+      - run: |
+          cd phase-3/microservice-deployment
+          docker compose up
+      
 
