@@ -86,21 +86,31 @@ jobs:
           username: ${{ secrets.HARBOR_USER_NAME }}
           password: ${{ secrets.HARBOR_USER_PWD }}
       
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v4
-        with:
-          images: ${{ env.REGISTRY }}/solvit-cicd/auth-test-upload-download:latest
+      #- name: Extract metadata (tags, labels) for Docker
+      #  id: meta
+      #  uses: docker/metadata-action@v4
+      #  with:
+      #    images: ${{ env.REGISTRY }}/solvit-cicd/auth-test-upload-download:latest
           
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v4
-        with:
-          context: phase-3/authusers/.
-          file: phase-3/authusers/Dockerfile
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+      #- name: Build and push Docker image
+      #  uses: docker/build-push-action@v4
+      #  with:
+      #    context: phase-3/authusers/.
+      #    file: phase-3/authusers/Dockerfile
+      #    push: true
+      #    tags: ${{ steps.meta.outputs.tags }}
+      #    labels: ${{ steps.meta.outputs.labels }}
           
+      - name: Build Docker image (native)
+        run: |
+          cd phase-3/authusers/
+          docker build -t ${{ env.REGISTRY }}/solvit-cicd/auth-test-upload-download:latest .
+
+      - name: Push Docker image (native)
+        run: |
+          docker push ${{ env.REGISTRY }}/solvit-cicd/auth-test-upload-download:latest
+        
+      
   publish-docker-todolist:
       needs: build-all-jars
       runs-on: self-hosted
