@@ -39,7 +39,7 @@ jobs:
     - name: build phase-3
       run: |
         cd phase-3/authuser
-        mvn compile
+        mvn -B package -Dmaven.test.skip=true
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
