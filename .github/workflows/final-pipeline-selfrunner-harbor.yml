@@ -163,7 +163,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
-          context: phase-3/todolist/.
+          context: phase-3/notifications/.
           file: phase-3/notifications/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
