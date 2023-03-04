@@ -60,7 +60,7 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
         name: notifications-jar
-        path: phase-3/notifications/todolist-phase2-notifications-1.0.0.jar
+        path: phase-3/notifications/target/todolist-phase2-notifications-1.0.0.jar
         if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
       
   publish-docker-auth:
