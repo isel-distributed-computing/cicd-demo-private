@@ -75,9 +75,6 @@ jobs:
         run: |
           mkdir phase-3/authusers/target
           cp authuser-phase2-1.0.0.jar phase-3/authusers/target/
-          
-      - name: Display structure of downloaded files
-        run: ls -R
       
       - name: Log in to the Container registry
         uses: docker/login-action@v2
@@ -90,7 +87,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/solvit-cicd/auth-test-upload-download
+          images: ${{ env.REGISTRY }}/solvit-cicd/authusers
           
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
@@ -100,30 +97,75 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          
-      #- name: Build Docker image (native)
-      #  run: |
-      #    cd phase-3/authusers/
-      #    docker build -t ${{ env.REGISTRY }}/solvit-cicd/auth-test-upload-download:latest .
-
-      #- name: Push Docker image (native)
-      #  run: |
-      #    docker push ${{ env.REGISTRY }}/solvit-cicd/auth-test-upload-download:latest
         
       
   publish-docker-todolist:
       needs: build-all-jars
       runs-on: self-hosted
       steps:
-        - name: mock
-          run: echo hello world
-      # TODO  
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+        with:
+          name: todolist-jar
+      - name: Copy JAR to target (to match Dockerfile)
+        run: |
+          mkdir phase-3/todolist/target
+          cp todolist-phase2-1.0.0.jar phase-3/todolist/target/
+      
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.HARBOR_USER_NAME }}
+          password: ${{ secrets.HARBOR_USER_PWD }}
+      
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.REGISTRY }}/solvit-cicd/todolist
+          
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: phase-3/todolist/.
+          file: phase-3/todolist/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }} 
   
   publish-docker-notifications:
       needs: build-all-jars
       runs-on: self-hosted
       steps:
-        - name: mock
-          run: echo hello world
-      # TODO
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+        with:
+          name: todolist-jar
+      - name: Copy JAR to target (to match Dockerfile)
+        run: |
+          mkdir phase-3/notifications/target
+          cp todolist-phase2-notifications-1.0.0.jar phase-3/notifications/target/
+      
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.HARBOR_USER_NAME }}
+          password: ${{ secrets.HARBOR_USER_PWD }}
+      
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.REGISTRY }}/solvit-cicd/notifications
+          
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: phase-3/todolist/.
+          file: phase-3/notifications/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }} 
 
