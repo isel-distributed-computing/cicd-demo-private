@@ -10,6 +10,9 @@ env:
 jobs:
   scan-vulnerabilities:
     runs-on: ubuntu-latest
+    steps:
+      - name: mock
+        run: echo hello world
 
   build-all-jars:
     needs: scan-vulnerabilities
@@ -101,10 +104,16 @@ jobs:
   publish-docker-todolist:
       needs: build-all-jars
       runs-on: self-hosted
+      steps:
+        - name: mock
+          run: echo hello world
       # TODO  
   
   publish-docker-notifications:
       needs: build-all-jars
       runs-on: self-hosted
+      steps:
+        - name: mock
+          run: echo hello world
       # TODO
 
