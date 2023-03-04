@@ -1,4 +1,4 @@
-name: Package save and restore
+name: Full pipeline from scan to image publish
 
 on:
   workflow_dispatch
