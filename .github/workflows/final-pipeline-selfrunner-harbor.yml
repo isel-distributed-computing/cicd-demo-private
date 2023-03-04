@@ -25,6 +25,7 @@ jobs:
       with:
         distribution: 'zulu' # See 'Supported distributions' for available options
         java-version: '17'
+        cache: maven
         
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
@@ -32,8 +33,13 @@ jobs:
       with:
         languages: 'java'
 
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v2
+    #- name: Autobuild
+    #  uses: github/codeql-action/autobuild@v2
+    
+    - name: build phase-3
+      run: |
+        cd phase-3/authuser
+        mvn compile
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
