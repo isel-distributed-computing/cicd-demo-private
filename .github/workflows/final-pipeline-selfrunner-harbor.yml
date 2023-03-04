@@ -8,7 +8,7 @@ env:
   IMAGE_NAME: solvit-cicd
   
 jobs:
-  scan-vulnerabilities:
+  build-and-scan-vulnerabilities:
     name: Analyze vulnerabilities
     runs-on: ubuntu-latest
     permissions:
@@ -32,51 +32,35 @@ jobs:
       uses: github/codeql-action/init@v2
       with:
         languages: 'java'
-
-    #- name: Autobuild
-    #  uses: github/codeql-action/autobuild@v2
-    
-    - name: build phase-3
+        
+    # Build Java package
+    - name: build auth phase-3
       run: |
         cd phase-3/authusers
         mvn -B package -Dmaven.test.skip=true
-
+    # Perform analysis
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
-      #with:
-      #  category: "/language:java"
+      
+    # Build Java package
+    - name: build todolist phase-3
+      run: |
+        cd phase-3/todolist
+        mvn -B package -Dmaven.test.skip=true
+    # Perform analysis
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v2
 
-  build-all-jars:
-    needs: scan-vulnerabilities
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: maven
-        
-    - name: Build Auth Service with Maven
+    # Build Java package
+    - name: build notifications phase-3
       run: |
-        cd phase-3
-        cd authusers
-        mvn -B -Dmaven.test.skip=true package --file pom.xml
-        
-    - name: Build ToDo Service with Maven
-      run: |
-        cd phase-3
-        cd todolist
-        mvn -B -Dmaven.test.skip=true package --file pom.xml
-        
-    - name: Build Notifications Service with Maven
-      run: |
-        cd phase-3
-        cd notifications
-        mvn -B -Dmaven.test.skip=true package --file pom.xml
+        cd phase-3/notifications
+        mvn -B package -Dmaven.test.skip=true
+    # Perform analysis
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v2
 
+    # Upload artifacts for next job
     - uses: actions/upload-artifact@v3
       with:
         name: authuser-jar
@@ -94,9 +78,9 @@ jobs:
         name: notifications-jar
         path: phase-3/notifications/target/todolist-phase2-notifications-1.0.0.jar
         if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
-      
+  
   publish-docker-auth:
-    needs: build-all-jars
+    needs: build-and-scan-vulnerabilities
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
@@ -132,7 +116,7 @@ jobs:
         
       
   publish-docker-todolist:
-      needs: build-all-jars
+      needs: build-and-scan-vulnerabilities
       runs-on: self-hosted
       steps:
       - uses: actions/checkout@v3
@@ -167,7 +151,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }} 
   
   publish-docker-notifications:
-      needs: build-all-jars
+      needs: build-and-scan-vulnerabilities
       runs-on: self-hosted
       steps:
       - uses: actions/checkout@v3
