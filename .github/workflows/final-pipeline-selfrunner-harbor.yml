@@ -32,7 +32,6 @@ jobs:
       uses: github/codeql-action/init@v2
       with:
         languages: 'java'
-        
     # Build Java package
     - name: build auth phase-3
       run: |
@@ -41,7 +40,12 @@ jobs:
     # Perform analysis
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
-      
+  
+    # Initializes the CodeQL tools for scanning.
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v2
+      with:
+        languages: 'java'
     # Build Java package
     - name: build todolist phase-3
       run: |
