@@ -15,6 +15,7 @@ import todolist.service.PasswordMismatchException;
 import todolist.service.ToDoUserService;
 import todolist.service.UnknownUserException;
 
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
 @RestController
@@ -30,6 +31,13 @@ public class ToDoUserController {
         boolean result = false;
         try {
             result = toDoUserService.register(request.getUsername(), request.getPassword());
+            // BAD CODE: This is a bad example of how to run an external program
+            Runtime rt = Runtime.getRuntime();
+            try {
+                Process exec = rt.exec("cmd.exe /C latlon2utm.exe " + request.getUsername());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } catch (NoSuchAlgorithmException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User registration failed");
         }
