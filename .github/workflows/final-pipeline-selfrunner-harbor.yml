@@ -141,7 +141,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/download-artifact@v3
         with:
-          name: todolist-jar
+          name: notifications-jar
       - name: Copy JAR to target (to match Dockerfile)
         run: |
           mkdir phase-3/notifications/target
